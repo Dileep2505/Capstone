@@ -32,7 +32,7 @@ function LoginPage() {
 
       const response =
         await api.post(
-          "/auth/login",
+          "/v1/auth/login",
           {
             email,
             password,
@@ -45,7 +45,9 @@ function LoginPage() {
 
       window.location.reload();
 
-    } catch {
+    } catch (error) {
+
+      console.error(error);
 
       alert("Login failed");
     } finally {
