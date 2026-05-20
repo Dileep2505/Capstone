@@ -54,7 +54,7 @@ export const registerUser = async (
 
   } catch (error) {
 
-    console.error(error);
+    console.error("REGISTER ERROR:", error);
 
     return res.status(500).json({
       success: false,
@@ -121,7 +121,7 @@ export const loginUser = async (
 
   } catch (error) {
 
-    console.error(error);
+    console.error("LOGIN ERROR:", error);
 
     return res.status(500).json({
       success: false,
