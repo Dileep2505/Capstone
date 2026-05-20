@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+
+  api:
+
+    build:
+      context: .
+
+      dockerfile: apps/api/Dockerfile
+
+    ports:
+      - "3001:3000"
+
+    env_file:
+      - .env.production
+
+  frontend:
+
+    build:
+      context: .
+
+      dockerfile: apps/frontend/Dockerfile
+
+    ports:
+      - "5173:5173"
+
+    depends_on:
+      - api

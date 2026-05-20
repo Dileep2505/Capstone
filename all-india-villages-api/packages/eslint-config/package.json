@@ -1,0 +1,8 @@
+{
+  "name": "@all-india-villages/eslint-config",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  }
+}

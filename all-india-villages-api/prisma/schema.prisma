@@ -1,0 +1,163 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Country {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  states    State[]
+}
+
+model State {
+  id          String            @id @default(cuid())
+  code        String            @unique
+  name        String
+  countryId   String
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  districts   District[]
+  country     Country           @relation(fields: [countryId], references: [id])
+  stateAccess UserStateAccess[]
+
+  @@index([name])
+}
+
+model District {
+  id           String        @id @default(cuid())
+  code         String
+  name         String
+  stateId      String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  state        State         @relation(fields: [stateId], references: [id])
+  subDistricts SubDistrict[]
+
+  @@unique([code, stateId])
+  @@index([name])
+  @@index([stateId])
+}
+
+model SubDistrict {
+  id         String    @id @default(cuid())
+  code       String
+  name       String
+  districtId String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  district   District  @relation(fields: [districtId], references: [id])
+  villages   Village[]
+
+  @@unique([code, districtId])
+  @@index([name])
+  @@index([districtId])
+}
+
+model Village {
+  id            String      @id @default(cuid())
+  code          String      @unique
+  name          String
+  subDistrictId String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  subDistrict   SubDistrict @relation(fields: [subDistrictId], references: [id])
+
+  @@index([name])
+  @@index([subDistrictId])
+  @@index([name, subDistrictId])
+}
+
+model User {
+
+  id             String   @id @default(cuid())
+
+  email          String   @unique
+
+  password       String
+
+  createdAt      DateTime @default(now())
+
+  updatedAt      DateTime @updatedAt
+
+  plan           String   @default("FREE")
+
+  monthlyQuota   Int      @default(1000)
+
+  monthlyUsage   Int      @default(0)
+
+  apiKeys        ApiKey[]
+
+  apiLogs        ApiLog[]
+
+  stateAccess  UserStateAccess[]
+  status UserStatus @default(ACTIVE)
+
+  @@index([email])
+}
+
+model ApiKey {
+  id           String    @id @default(cuid())
+  key          String    @unique
+  secretHash   String
+  name         String
+  isActive     Boolean   @default(true)
+  expiresAt    DateTime?
+  requestCount Int       @default(0)
+  lastUsedAt   DateTime?
+  userId       String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User      @relation(fields: [userId], references: [id])
+  apiLogs      ApiLog[]
+
+  @@index([key])
+}
+
+model UserStateAccess {
+  id        String   @id @default(cuid())
+  userId    String
+  stateId   String
+  createdAt DateTime @default(now())
+  state     State    @relation(fields: [stateId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, stateId])
+}
+
+model ApiLog {
+  id           String   @id @default(cuid())
+  endpoint     String
+  method       String
+  responseTime Int
+  statusCode   Int
+  ipAddress    String?
+  apiKeyId     String?
+  userId       String?
+  createdAt    DateTime @default(now())
+  apiKey       ApiKey?  @relation(fields: [apiKeyId], references: [id])
+  user         User?    @relation(fields: [userId], references: [id])
+
+  @@index([createdAt])
+  @@index([userId])
+}
+
+enum UserStatus {
+  PENDING_APPROVAL
+  ACTIVE
+  SUSPENDED
+}
+
+enum PlanType {
+  FREE
+  PREMIUM
+  PRO
+  UNLIMITED
+}
