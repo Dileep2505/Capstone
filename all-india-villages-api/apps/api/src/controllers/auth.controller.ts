@@ -15,7 +15,6 @@ export const registerUser = async (
     const {
       email,
       password,
-      businessName,
     } = req.body;
 
     const existingUser = await prisma.user.findUnique({
@@ -39,14 +38,12 @@ export const registerUser = async (
     const user = await prisma.user.create({
       data: {
         email,
-        password,
-        businessName,
+        password: passwordHash,
       },
 
       select: {
         id: true,
         email: true,
-        businessName: true,
       },
     });
 
