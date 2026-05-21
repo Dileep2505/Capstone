@@ -1,4 +1,12 @@
 {
+	
+  "name": "all-india-villages-api",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel --filter ./apps/* dev",
+    "build": "pnpm --recursive build",
+    "start": "pnpm --filter @all-india-villages/api start"
+  },
 	"dependencies": {
 		"@tanstack/react-query": "^5.100.11",
 		"axios": "^1.16.1",

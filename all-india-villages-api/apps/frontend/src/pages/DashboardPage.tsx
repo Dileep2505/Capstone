@@ -41,8 +41,6 @@ function DashboardPage() {
     queryFn:
       getDashboardStats,
 
-    enabled: true,
-
     refetchInterval: 5000,
   });
 
@@ -63,9 +61,9 @@ function DashboardPage() {
 
           {isLoading ? (
 
-            <div className="text-lg font-medium">
+            <div className="text-xl font-semibold">
 
-              Loading dashboard...
+              Loading...
 
             </div>
 
@@ -82,7 +80,7 @@ function DashboardPage() {
                     <MetricCard
                       title="Total Users"
                       value={
-                        data?.data.totalUsers || 0
+                        data?.data?.totalUsers || 0
                       }
                       icon="👥"
                       change="+12%"
@@ -91,7 +89,7 @@ function DashboardPage() {
                     <MetricCard
                       title="API Keys"
                       value={
-                        data?.data.totalApiKeys || 0
+                        data?.data?.totalApiKeys || 0
                       }
                       icon="🔑"
                       change="+5%"
@@ -100,7 +98,7 @@ function DashboardPage() {
                     <MetricCard
                       title="Requests"
                       value={
-                        data?.data.totalRequests || 0
+                        data?.data?.totalRequests || 0
                       }
                       icon="⚡"
                       change="+28%"
@@ -110,7 +108,7 @@ function DashboardPage() {
                       title="Avg Response"
                       value={`${Math.round(
                         data?.data
-                          .averageResponseTime || 0
+                          ?.averageResponseTime || 0
                       )} ms`}
                       icon="🚀"
                       change="-8%"
@@ -127,7 +125,7 @@ function DashboardPage() {
                   <LiveLogsTable
                     logs={
                       data?.data
-                        .recentRequests || []
+                        ?.recentRequests || []
                     }
                   />
 
@@ -137,12 +135,28 @@ function DashboardPage() {
 
               {tab === "logs" && (
 
-                <LiveLogsTable
-                  logs={
-                    data?.data
-                      .recentRequests || []
-                  }
-                />
+                <div>
+
+                  <h1 className="text-4xl font-bold mb-6">
+
+                    Live Logs
+
+                  </h1>
+
+                  <LiveLogsTable
+                    logs={
+                      data?.data
+                        ?.recentRequests || []
+                    }
+                  />
+
+                </div>
+
+              )}
+
+              {tab === "playground" && (
+
+                <PlaygroundPage />
 
               )}
 
@@ -161,12 +175,6 @@ function DashboardPage() {
               {tab === "docs" && (
 
                 <DocsPage />
-
-              )}
-
-              {tab === "playground" && (
-
-                <PlaygroundPage />
 
               )}
 
