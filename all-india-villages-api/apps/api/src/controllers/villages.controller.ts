@@ -8,7 +8,14 @@ export const getVillagesBySubDistrict = async (
 ) => {
   try {
 
-    const id = String(req.params.id);
+    const id = String(req.params.id || req.query.subdistrictId || "");
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "subdistrictId is required",
+      });
+    }
 
     const page = Number(req.query.page || 1);
 

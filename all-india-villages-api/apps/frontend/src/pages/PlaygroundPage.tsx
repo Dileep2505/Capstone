@@ -176,9 +176,9 @@ function PlaygroundPage() {
 
               {[
                 "/v1/states",
-                "/v1/districts",
-                "/v1/subdistricts",
-                "/v1/villages",
+                "/v1/states/1/districts",
+                "/v1/districts/1/subdistricts",
+                "/v1/subdistricts/1/villages",
               ].map((item) => (
 
                 <button

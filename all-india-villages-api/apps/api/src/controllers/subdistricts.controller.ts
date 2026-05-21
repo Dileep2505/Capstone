@@ -8,7 +8,14 @@ export const getSubDistrictsByDistrict = async (
 ) => {
   try {
 
-    const id = String(req.params.id);
+    const id = String(req.params.id || req.query.districtId || "");
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "districtId is required",
+      });
+    }
 
     const subDistricts = await prisma.subDistrict.findMany({
       where: {

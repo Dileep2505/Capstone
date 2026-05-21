@@ -11,6 +11,7 @@ import apiKeyRouter from "./apiKey.routes";
 import adminRouter from "./admin.routes";
 import adminUsersRoutes
 from "./adminUsers.routes";
+import villagesRouter from "./villages.routes";
 import {
   checkQuota,
 } from "../middlewares/quota.middleware";
@@ -25,6 +26,7 @@ router.use(
 router.use("/districts", districtsRouter);
 
 router.use("/subdistricts", subdistrictsRouter);
+router.use("/villages", villagesRouter);
 
 router.use("/search", searchRouter);
 

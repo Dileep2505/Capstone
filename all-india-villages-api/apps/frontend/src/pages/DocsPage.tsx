@@ -13,25 +13,25 @@ function DocsPage() {
     {
       method: "GET",
       endpoint:
-        "/v1/districts?stateId=1",
+        "/v1/states/1/districts",
       description:
-        "Get districts by state",
+        "Get districts for a state",
     },
 
     {
       method: "GET",
       endpoint:
-        "/v1/subdistricts?districtId=1",
+        "/v1/districts/1/subdistricts",
       description:
-        "Get subdistricts",
+        "Get subdistricts for a district",
     },
 
     {
       method: "GET",
       endpoint:
-        "/v1/villages?subdistrictId=1",
+        "/v1/subdistricts/1/villages",
       description:
-        "Get villages list",
+        "Get villages for a subdistrict",
     },
   ];
 

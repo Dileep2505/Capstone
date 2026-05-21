@@ -7,17 +7,21 @@ export const runApiRequest =
     apiSecret: string
   ) => {
 
+    const playgroundApi = axios.create({
+  baseURL:
+    import.meta.env.VITE_API_URL ||
+    (typeof window !== "undefined"
+      ? window.location.origin
+      : ""),
+});
+
     const response =
-      await axios.get(
-        `http://localhost:3000${endpoint}`,
+      await playgroundApi.get(
+        endpoint,
         {
           headers: {
-
-            "X-API-Key":
-              apiKey,
-
-            "X-API-Secret":
-              apiSecret,
+            "X-API-Key": apiKey,
+            "X-API-Secret": apiSecret,
           },
         }
       );

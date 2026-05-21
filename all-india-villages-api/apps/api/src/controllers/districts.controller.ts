@@ -8,7 +8,14 @@ export const getDistrictsByState = async (
 ) => {
   try {
 
-    const id = String(req.params.id);
+    const id = String(req.params.id || req.query.stateId || "");
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "stateId is required",
+      });
+    }
 
     const districts = await prisma.district.findMany({
       where: {
