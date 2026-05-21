@@ -68,7 +68,9 @@ router.post(
             name: "Production Key",
 
             userId:
-              "replace-with-user-id",
+  (
+    await prisma.user.findFirst()
+  )!.id,
           },
         });
 
