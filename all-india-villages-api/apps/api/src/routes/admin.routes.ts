@@ -10,6 +10,10 @@ import {
   authenticate,
 } from "../middlewares/auth.middleware";
 
+import {
+  getWeeklyAnalytics,
+} from "../controllers/analytics.controller";
+
 const router = Router();
 
 router.use(authenticate);
@@ -46,6 +50,11 @@ router.get(
       data: [],
     });
   }
+);
+
+router.get(
+  "/analytics/weekly",
+  getWeeklyAnalytics
 );
 
 router.post(
