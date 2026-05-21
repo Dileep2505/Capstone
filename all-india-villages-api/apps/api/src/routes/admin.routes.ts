@@ -6,7 +6,13 @@ import {
   getDashboardStats,
 } from "../controllers/admin.controller";
 
+import {
+  authenticate,
+} from "../middlewares/auth.middleware";
+
 const router = Router();
+
+router.use(authenticate);
 
 router.get(
   "/dashboard",
@@ -44,20 +50,12 @@ router.get(
 
 router.post(
   "/api-keys",
-  async (_req, res) => {
+  async (req, res) => {
 
     try {
 
-      const user =
-        await prisma.user.findFirst();
-
-      if (!user) {
-
-        return res.status(400).json({
-          success: false,
-          message: "No users found",
-        });
-      }
+      const userId =
+        (req as any).user.userId;
 
       const key =
         crypto.randomBytes(24)
@@ -78,7 +76,7 @@ router.post(
 
             name: "Production Key",
 
-            userId: user.id,
+            userId,
           },
         });
 

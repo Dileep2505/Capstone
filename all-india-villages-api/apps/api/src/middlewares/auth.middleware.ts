@@ -2,8 +2,13 @@ import { Request, Response, NextFunction } from "express";
 
 import jwt from "jsonwebtoken";
 
-export interface AuthRequest extends Request {
-  user?: any;
+export interface AuthRequest
+  extends Request {
+
+  user?: {
+    userId: string;
+    email: string;
+  };
 }
 
 export const authenticate = (
@@ -18,26 +23,24 @@ export const authenticate = (
       req.headers.authorization;
 
     if (!authHeader) {
+
       return res.status(401).json({
         success: false,
-        message: "Authorization header missing",
+        message: "No token provided",
       });
     }
 
     const token =
       authHeader.split(" ")[1];
 
-    if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: "Token missing",
-      });
-    }
-
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string
-    );
+    const decoded =
+      jwt.verify(
+        token,
+        process.env.JWT_SECRET as string
+      ) as {
+        userId: string;
+        email: string;
+      };
 
     req.user = decoded;
 
@@ -47,7 +50,7 @@ export const authenticate = (
 
     return res.status(401).json({
       success: false,
-      message: "Invalid or expired token",
+      message: "Invalid token",
     });
   }
 };
