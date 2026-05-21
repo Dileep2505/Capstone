@@ -75,17 +75,6 @@ function Sidebar({
 
         <button
           onClick={() =>
-            setTab("ai")
-          }
-          className={itemClass(
-            tab === "ai"
-          )}
-        >
-          ✨ AI Search
-        </button>
-
-        <button
-          onClick={() =>
             setTab("apiKeys")
           }
           className={itemClass(

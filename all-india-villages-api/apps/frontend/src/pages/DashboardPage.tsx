@@ -6,31 +6,26 @@ import {
   getDashboardStats,
 } from "../services/adminApi";
 
-import StatsCard from "../components/StatsCard";
-
-import RecentRequestsTable from "../components/RecentRequestsTable";
-
 import ApiKeysPage from "./ApiKeysPage";
 
 import SubscriptionPage from "./SubscriptionPage";
 
-import UsageCard from "../components/UsageCard";
 import DocsPage from "./DocsPage";
+
 import PlaygroundPage from "./PlaygroundPage";
-import AdminUsersPage
-from "./AdminUsersPage";
+
+import AdminUsersPage from "./AdminUsersPage";
+
 import Sidebar from "../components/Sidebar";
 
-import {
-  useAuthStore,
-} from "../store/authStore";
+import Topbar from "../components/Topbar";
+
+import MetricCard from "../components/MetricCard";
+
+import LiveLogsTable from "../components/LiveLogsTable";
+import AnalyticsChart from "../components/AnalyticsChart";
 
 function DashboardPage() {
-
-  const logout =
-    useAuthStore(
-      (state) => state.logout
-    );
 
   const [tab, setTab] =
     useState("dashboard");
@@ -51,83 +46,89 @@ function DashboardPage() {
 
   return (
 
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 flex">
 
-      <div className="bg-white shadow px-8 py-4 flex items-center justify-between">
+      <Sidebar
+        tab={tab}
+        setTab={setTab}
+      />
 
-        <h1 className="text-3xl font-bold">
+      <div className="flex-1 flex flex-col">
 
-          All India Villages
+        <Topbar />
 
-        </h1>
-
-        <button
-          onClick={logout}
-          className="bg-red-500 text-white px-4 py-2 rounded"
-        >
-          Logout
-        </button>
-
-      </div>
-
-      <div className="flex">
-
-        <Sidebar
-  tab={tab}
-  setTab={setTab}
-/>
-
-        <main className="flex-1 p-8">
+        <main className="p-8">
 
           {tab === "dashboard" && (
 
             isLoading ? (
 
-              <div>
-                Loading...
+              <div className="text-lg font-medium">
+
+                Loading dashboard...
+
               </div>
 
             ) : (
 
               <>
 
-  <UsageCard
-    usage={120}
-    quota={1000}
-  />
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
 
-  <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                  <StatsCard
-                    title="Users"
-                    value={data.data.totalUsers}
+                  <MetricCard
+                    title="Total Users"
+                    value={
+                      data?.data.totalUsers || 0
+                    }
+                    icon="👥"
+                    change="+12%"
                   />
 
-                  <StatsCard
+                  <MetricCard
                     title="API Keys"
-                    value={data.data.totalApiKeys}
+                    value={
+                      data?.data.totalApiKeys || 0
+                    }
+                    icon="🔑"
+                    change="+5%"
                   />
 
-                  <StatsCard
+                  <MetricCard
                     title="Requests"
-                    value={data.data.totalRequests}
+                    value={
+                      data?.data.totalRequests || 0
+                    }
+                    icon="⚡"
+                    change="+28%"
                   />
 
-                  <StatsCard
+                  <MetricCard
                     title="Avg Response"
                     value={`${Math.round(
-                      data.data.averageResponseTime
+                      data?.data
+                        .averageResponseTime || 0
                     )} ms`}
+                    icon="🚀"
+                    change="-8%"
                   />
 
                 </div>
+                <div className="mb-8">
 
-                <RecentRequestsTable
-                  requests={
-                    data.data.recentRequests
-                  }
-                />
+  <AnalyticsChart />
+
+</div>
+
+                <LiveLogsTable
+  logs={
+    data?.data.recentRequests || []
+  }
+/>
+
               </>
+
             )
+
           )}
 
           {tab === "apiKeys" && (
@@ -147,18 +148,18 @@ function DashboardPage() {
             <DocsPage />
 
           )}
-    
+
           {tab === "playground" && (
 
             <PlaygroundPage />
 
           )}
 
-          {tab === "admin-users" && (
+          {tab === "users" && (
 
-  <AdminUsersPage />
+            <AdminUsersPage />
 
-)}
+          )}
 
         </main>
 
