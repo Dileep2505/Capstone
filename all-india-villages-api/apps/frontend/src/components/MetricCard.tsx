@@ -5,15 +5,12 @@ interface MetricCardProps {
   value: string | number;
 
   change?: string;
-
-  icon?: string;
 }
 
 function MetricCard({
   title,
   value,
   change,
-  icon,
 }: MetricCardProps) {
 
   return (

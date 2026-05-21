@@ -82,7 +82,6 @@ function DashboardPage() {
                       value={
                         data?.data?.totalUsers || 0
                       }
-                      icon="👥"
                       change="+12%"
                     />
 
@@ -91,7 +90,6 @@ function DashboardPage() {
                       value={
                         data?.data?.totalApiKeys || 0
                       }
-                      icon="🔑"
                       change="+5%"
                     />
 
@@ -100,7 +98,6 @@ function DashboardPage() {
                       value={
                         data?.data?.totalRequests || 0
                       }
-                      icon="⚡"
                       change="+28%"
                     />
 
@@ -110,7 +107,6 @@ function DashboardPage() {
                         data?.data
                           ?.averageResponseTime || 0
                       )} ms`}
-                      icon="🚀"
                       change="-8%"
                     />
 
