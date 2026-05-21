@@ -79,16 +79,10 @@ function PlanCard({
 
             <li
               key={index}
-              className="flex items-center gap-2"
+              className=""
             >
 
-              <span>
-                ✅
-              </span>
-
-              <span>
-                {feature}
-              </span>
+              {feature}
 
             </li>
           )
