@@ -6,6 +6,8 @@ import {
   requestLogger,
 } from "./middlewares/requestLogger";
 
+app.use(requestLogger);
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });

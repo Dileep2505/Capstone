@@ -19,6 +19,7 @@ import DocsPage from "./DocsPage";
 import PlaygroundPage from "./PlaygroundPage";
 import AdminUsersPage
 from "./AdminUsersPage";
+import Sidebar from "../components/Sidebar";
 
 import {
   useAuthStore,
@@ -71,67 +72,10 @@ function DashboardPage() {
 
       <div className="flex">
 
-        <aside className="w-64 bg-white min-h-screen shadow">
-
-          <div className="p-4 space-y-2">
-
-            <button
-              onClick={() =>
-                setTab("dashboard")
-              }
-              className="w-full text-left px-4 py-3 rounded hover:bg-gray-100"
-            >
-              Dashboard
-            </button>
-
-            <button
-              onClick={() =>
-                setTab("apiKeys")
-              }
-              className="w-full text-left px-4 py-3 rounded hover:bg-gray-100"
-            >
-              API Keys
-            </button>
-
-              <button
-  onClick={() =>
-    setTab("subscription")
-  }
-  className="w-full text-left px-4 py-3 rounded hover:bg-gray-100"
->
-  Subscription
-</button>
-
-            <button
-  onClick={() =>
-    setTab("docs")
-  }
-  className="w-full text-left px-4 py-3 rounded hover:bg-gray-100"
->
-  API Docs
-</button>
-
-            <button
-  onClick={() =>
-    setTab("playground")
-  }
-  className="w-full text-left px-4 py-3 rounded hover:bg-gray-100"
->
-  API Playground
-</button>
-
-<button
-  onClick={() =>
-    setTab("admin-users")
-  }
-  className="w-full text-left px-4 py-3 rounded hover:bg-gray-100"
->
-  User Management
-</button>
-
-          </div>
-
-        </aside>
+        <Sidebar
+  tab={tab}
+  setTab={setTab}
+/>
 
         <main className="flex-1 p-8">
 
