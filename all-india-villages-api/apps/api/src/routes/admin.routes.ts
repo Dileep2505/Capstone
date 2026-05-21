@@ -48,6 +48,17 @@ router.post(
 
     try {
 
+      const user =
+        await prisma.user.findFirst();
+
+      if (!user) {
+
+        return res.status(400).json({
+          success: false,
+          message: "No users found",
+        });
+      }
+
       const key =
         crypto.randomBytes(24)
           .toString("hex");
@@ -67,10 +78,7 @@ router.post(
 
             name: "Production Key",
 
-            userId:
-  (
-    await prisma.user.findFirst()
-  )!.id,
+            userId: user.id,
           },
         });
 
@@ -86,11 +94,15 @@ router.post(
 
     } catch (error) {
 
-      console.error(error);
+      console.error(
+        "API KEY ERROR:",
+        error
+      );
 
       return res.status(500).json({
         success: false,
-        message: "Failed to create API key",
+        message:
+          "Failed to create API key",
       });
     }
   }
