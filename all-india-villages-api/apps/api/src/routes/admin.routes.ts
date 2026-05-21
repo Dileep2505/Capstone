@@ -39,8 +39,9 @@ router.post(
       success: true,
 
       data: {
-        key: "demo-api-key",
-      },
+  key: "demo-api-key",
+  secret: "demo-secret-key",
+},
     });
   }
 );
