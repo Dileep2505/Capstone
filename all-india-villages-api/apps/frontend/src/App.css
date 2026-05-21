@@ -83,11 +83,7 @@
     }
   }
 
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
+  /* icons removed - styles kept minimal to avoid layout shifts */
 
   @media (max-width: 1024px) {
     flex-direction: column;
@@ -130,10 +126,7 @@
     &:hover {
       box-shadow: var(--shadow);
     }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
+    /* button icons removed */
   }
 
   @media (max-width: 1024px) {

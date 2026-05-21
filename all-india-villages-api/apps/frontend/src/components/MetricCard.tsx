@@ -22,17 +22,7 @@ function MetricCard({
 
       <div className="flex items-center justify-between mb-4">
 
-        <span className="text-gray-500 text-sm">
-
-          {title}
-
-        </span>
-
-        <span className="text-2xl">
-
-          {icon}
-
-        </span>
+        <span className="text-gray-500 text-sm">{title}</span>
 
       </div>
 
