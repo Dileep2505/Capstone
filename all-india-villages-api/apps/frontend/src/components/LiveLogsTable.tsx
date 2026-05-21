@@ -141,8 +141,6 @@ function LiveLogsTable({
 
           <div className="text-6xl mb-4">
 
-            📡
-
           </div>
 
           <h3 className="text-2xl font-bold mb-2">

@@ -15,7 +15,7 @@ function Topbar() {
 
         <h2 className="text-2xl font-bold">
 
-          Welcome back 👋
+          Welcome back 
 
         </h2>
 
@@ -30,7 +30,7 @@ function Topbar() {
 
         <button className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200">
 
-          🔔 Notifications
+           Notifications
 
         </button>
 

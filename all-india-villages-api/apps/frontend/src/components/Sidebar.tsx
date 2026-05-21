@@ -86,7 +86,7 @@ function Sidebar({
               tab === "dashboard"
             )}
           >
-            📊 Dashboard
+             Dashboard
           </button>
 
           <button
@@ -97,7 +97,7 @@ function Sidebar({
               tab === "playground"
             )}
           >
-            ⚡ API Playground
+             API Playground
           </button>
 
           <button
@@ -108,7 +108,7 @@ function Sidebar({
               tab === "logs"
             )}
           >
-            📡 Live Logs
+             Live Logs
           </button>
 
           <button
@@ -119,7 +119,7 @@ function Sidebar({
               tab === "apiKeys"
             )}
           >
-            🔑 API Keys
+             API Keys
           </button>
 
           <button
@@ -130,7 +130,7 @@ function Sidebar({
               tab === "subscription"
             )}
           >
-            💳 Plans
+             Plans
           </button>
 
           <button
@@ -141,7 +141,7 @@ function Sidebar({
               tab === "docs"
             )}
           >
-            📘 API Docs
+             API Docs
           </button>
 
           <button
@@ -152,7 +152,7 @@ function Sidebar({
               tab === "users"
             )}
           >
-            👥 Users
+             Users
           </button>
 
         </nav>
