@@ -70,7 +70,8 @@ export const suspendUser =
 
     try {
 
-      const { id } = req.params;
+      const { id: rawId } = req.params;
+      const id = String(rawId);
 
       const user =
         await prisma.user.update({
@@ -112,7 +113,8 @@ export const activateUser =
 
     try {
 
-      const { id } = req.params;
+      const { id: rawId } = req.params;
+      const id = String(rawId);
 
       const user =
         await prisma.user.update({

@@ -34,27 +34,36 @@ export const apiLogger = async (
           });
       }
 
-      await prisma.apiLog.create({
+      // Create the log and update counters atomically when possible.
+      const apiLogData: any = {
+        endpoint: req.originalUrl,
+        method: req.method,
+        responseTime,
+        statusCode: res.statusCode,
+        ipAddress: req.ip || "unknown",
+        apiKeyId: apiKeyRecord?.id,
+        userId: req.apiUser?.id,
+      };
 
-        data: {
+      await prisma.$transaction(async (tx) => {
+        await tx.apiLog.create({ data: apiLogData });
 
-          endpoint: req.originalUrl,
+        if (apiKeyRecord) {
+          await tx.apiKey.update({
+            where: { id: apiKeyRecord.id },
+            data: {
+              requestCount: { increment: 1 },
+              lastUsedAt: new Date(),
+            },
+          });
+        }
 
-          method: req.method,
-
-          responseTime,
-
-          statusCode: res.statusCode,
-
-          ipAddress:
-            req.ip || "unknown",
-
-          apiKeyId:
-            apiKeyRecord?.id,
-
-          userId:
-            req.apiUser?.id,
-        },
+        if (req.apiUser?.id && res.statusCode < 400) {
+          await tx.user.update({
+            where: { id: req.apiUser.id },
+            data: { monthlyUsage: { increment: 1 } },
+          });
+        }
       });
 
     } catch (error) {
