@@ -26,126 +26,157 @@ function LiveLogsTable({
 
       <div className="px-6 py-4 border-b">
 
-        <h2 className="text-xl font-bold">
+        <h2 className="text-2xl font-bold">
 
           Live API Logs
 
         </h2>
 
-        <p className="text-sm text-gray-500">
+        <p className="text-gray-500 text-sm mt-1">
 
           Real-time API activity
+
         </p>
 
       </div>
 
-      <div className="overflow-x-auto">
+      {logs.length === 0 ? (
 
-        <table className="w-full">
+        <div className="flex flex-col items-center justify-center py-24">
 
-          <thead className="bg-gray-50">
+          <div className="text-6xl mb-4">
 
-            <tr>
+            📡
 
-              <th className="text-left px-6 py-4 text-sm font-semibold">
+          </div>
 
-                Endpoint
+          <h3 className="text-2xl font-bold mb-2">
 
-              </th>
+            No API Logs Yet
 
-              <th className="text-left px-6 py-4 text-sm font-semibold">
+          </h3>
 
-                Method
+          <p className="text-gray-500">
 
-              </th>
+            API requests will appear here in real time.
 
-              <th className="text-left px-6 py-4 text-sm font-semibold">
+          </p>
 
-                Status
+        </div>
 
-              </th>
+      ) : (
 
-              <th className="text-left px-6 py-4 text-sm font-semibold">
+        <div className="overflow-x-auto">
 
-                Response
+          <table className="w-full">
 
-              </th>
+            <thead className="bg-gray-50">
 
-              <th className="text-left px-6 py-4 text-sm font-semibold">
+              <tr>
 
-                Time
+                <th className="text-left px-6 py-4 text-sm font-semibold">
 
-              </th>
+                  Endpoint
 
-            </tr>
+                </th>
 
-          </thead>
+                <th className="text-left px-6 py-4 text-sm font-semibold">
 
-          <tbody>
+                  Method
 
-            {logs.map(
-              (log, index) => (
+                </th>
 
-                <tr
-                  key={index}
-                  className="border-t hover:bg-gray-50"
-                >
+                <th className="text-left px-6 py-4 text-sm font-semibold">
 
-                  <td className="px-6 py-4 font-mono text-sm">
+                  Status
 
-                    {log.endpoint}
+                </th>
 
-                  </td>
+                <th className="text-left px-6 py-4 text-sm font-semibold">
 
-                  <td className="px-6 py-4">
+                  Response
 
-                    <span className="px-2 py-1 rounded-lg bg-blue-100 text-blue-700 text-xs font-medium">
+                </th>
 
-                      {log.method}
+                <th className="text-left px-6 py-4 text-sm font-semibold">
 
-                    </span>
+                  Time
 
-                  </td>
+                </th>
 
-                  <td className="px-6 py-4">
+              </tr>
 
-                    <span
-                      className={`px-2 py-1 rounded-lg text-xs font-medium ${
-                        log.statusCode >= 200 &&
-                        log.statusCode < 300
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}
-                    >
-                      {log.statusCode}
-                    </span>
+            </thead>
 
-                  </td>
+            <tbody>
 
-                  <td className="px-6 py-4">
+              {logs.map(
+                (log, index) => (
 
-                    {log.responseTime} ms
+                  <tr
+                    key={index}
+                    className="border-t hover:bg-gray-50"
+                  >
 
-                  </td>
+                    <td className="px-6 py-4 font-mono text-sm">
 
-                  <td className="px-6 py-4 text-sm text-gray-500">
+                      {log.endpoint}
 
-                    {new Date(
-                      log.createdAt
-                    ).toLocaleString()}
+                    </td>
 
-                  </td>
+                    <td className="px-6 py-4">
 
-                </tr>
+                      <span className="px-2 py-1 rounded-lg bg-blue-100 text-blue-700 text-xs font-medium">
 
-              )
-            )}
+                        {log.method}
 
-          </tbody>
+                      </span>
 
-        </table>
+                    </td>
 
-      </div>
+                    <td className="px-6 py-4">
+
+                      <span
+                        className={`px-2 py-1 rounded-lg text-xs font-medium ${
+                          log.statusCode >= 200 &&
+                          log.statusCode < 300
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                      >
+
+                        {log.statusCode}
+
+                      </span>
+
+                    </td>
+
+                    <td className="px-6 py-4">
+
+                      {log.responseTime} ms
+
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-500">
+
+                      {new Date(
+                        log.createdAt
+                      ).toLocaleString()}
+
+                    </td>
+
+                  </tr>
+
+                )
+              )}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      )}
 
     </div>
   );
