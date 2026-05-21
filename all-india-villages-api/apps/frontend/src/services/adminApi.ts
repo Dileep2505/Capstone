@@ -8,7 +8,7 @@ export const getDashboardStats =
 
     const response =
       await api.get(
-        "/admin/dashboard",
+        "/v1/admin/dashboard",
         {
           headers: {
             Authorization:

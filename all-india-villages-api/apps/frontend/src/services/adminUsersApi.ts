@@ -16,7 +16,7 @@ export const getUsers =
 
     const response =
       await api.get(
-        "/admin/users",
+        "/v1/admin/users",
         {
           headers:
             getHeaders(),
@@ -31,7 +31,7 @@ export const suspendUser =
 
     const response =
       await api.patch(
-        `/admin/users/${id}/suspend`,
+        `/v1/admin/users/${id}/suspend`,
         {},
         {
           headers:
@@ -47,7 +47,7 @@ export const activateUser =
 
     const response =
       await api.patch(
-        `/admin/users/${id}/activate`,
+        `/v1/admin/users/${id}/activate`,
         {},
         {
           headers:

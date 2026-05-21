@@ -17,7 +17,7 @@ export const getApiKeys =
 
     const response =
       await api.get(
-        "/api-keys",
+        "/v1/admin/api-keys",
         {
           headers:
             getAuthHeaders(),
@@ -32,7 +32,7 @@ export const createApiKey =
 
     const response =
       await api.post(
-        "/api-keys",
+        "/v1/admin/api-keys",
         {},
         {
           headers:
@@ -48,7 +48,7 @@ export const revokeApiKey =
 
     const response =
       await api.delete(
-        `/api-keys/${id}`,
+        `/v1/admin/api-keys/${id}`,
         {
           headers:
             getAuthHeaders(),
