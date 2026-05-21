@@ -1,3 +1,10 @@
+import { useQuery }
+from "@tanstack/react-query";
+
+import {
+  getUsage,
+} from "../services/usageApi";
+
 interface SidebarProps {
 
   tab: string;
@@ -11,6 +18,32 @@ function Sidebar({
   tab,
   setTab,
 }: SidebarProps) {
+
+  const {
+    data,
+  } = useQuery({
+
+    queryKey: ["usage"],
+
+    queryFn: getUsage,
+  });
+
+  const usage =
+    data?.data?.monthlyUsage || 0;
+
+  const quota =
+    data?.data?.monthlyQuota || 1;
+
+  const percentage =
+    Math.min(
+      Math.round(
+        (usage / quota) * 100
+      ),
+      100
+    );
+
+  const plan =
+    data?.data?.plan || "FREE";
 
   const itemClass = (
     active: boolean
@@ -38,6 +71,7 @@ function Sidebar({
           <p className="text-sm text-gray-500 mt-2">
 
             Developer Platform
+
           </p>
 
         </div>
@@ -131,13 +165,13 @@ function Sidebar({
 
           <span className="font-semibold">
 
-            Pro Plan
+            {plan} Plan
 
           </span>
 
           <span className="text-sm opacity-80">
 
-            37%
+            {percentage}%
 
           </span>
 
@@ -145,13 +179,21 @@ function Sidebar({
 
         <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
 
-          <div className="w-[37%] h-full bg-white rounded-full" />
+          <div
+            style={{
+              width: `${percentage}%`,
+            }}
+            className="h-full bg-white rounded-full"
+          />
 
         </div>
 
         <p className="text-xs opacity-80 mt-3">
 
-          37,420 / 100k requests
+          {usage.toLocaleString()}
+          {" / "}
+          {quota.toLocaleString()}
+          {" requests"}
 
         </p>
 

@@ -1,5 +1,4 @@
-import { api }
-from "./api";
+import { api } from "./api";
 
 const getHeaders = () => ({
 
@@ -16,16 +15,12 @@ export const getUsers =
 
     const response =
       await api.get(
-        "/v1/admin/users",
-        {
-          headers:
-            getHeaders(),
-        }
+        "/v1/admin/users"
       );
 
     return response.data;
-};
-
+  };
+  
 export const suspendUser =
   async (id: string) => {
 

@@ -1,3 +1,7 @@
+import { useState } from "react";
+
+import { saveAs } from "file-saver";
+
 interface Log {
 
   endpoint: string;
@@ -20,27 +24,118 @@ function LiveLogsTable({
   logs,
 }: LiveLogsTableProps) {
 
+  const [search, setSearch] =
+    useState("");
+
+  const filteredLogs =
+    logs.filter((log: Log) =>
+      log.endpoint
+        .toLowerCase()
+        .includes(
+          search.toLowerCase()
+        )
+    );
+
+  const exportCSV = () => {
+
+    const headers = [
+      "Endpoint",
+      "Method",
+      "Status",
+      "Response Time",
+      "Created At",
+    ];
+
+    const rows =
+      filteredLogs.map(
+        (log: Log) => [
+
+          log.endpoint,
+
+          log.method,
+
+          log.statusCode,
+
+          log.responseTime,
+
+          new Date(
+            log.createdAt
+          ).toLocaleString(),
+        ]
+      );
+
+    const csvContent = [
+
+      headers.join(","),
+
+      ...rows.map(
+        (row: any[]) =>
+          row.join(",")
+      ),
+    ].join("\n");
+
+    const blob =
+      new Blob(
+        [csvContent],
+        {
+          type:
+            "text/csv;charset=utf-8;",
+        }
+      );
+
+    saveAs(
+      blob,
+      "api-logs.csv"
+    );
+  };
+
   return (
 
     <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
 
-      <div className="px-6 py-4 border-b">
+      <div className="px-6 py-5 border-b flex items-center justify-between">
 
-        <h2 className="text-2xl font-bold">
+        <div>
 
-          Live API Logs
+          <h2 className="text-2xl font-bold">
 
-        </h2>
+            Live API Logs
 
-        <p className="text-gray-500 text-sm mt-1">
+          </h2>
 
-          Real-time API activity
+          <p className="text-gray-500 text-sm mt-1">
 
-        </p>
+            Real-time API activity
+
+          </p>
+
+        </div>
+
+        <div className="flex items-center gap-3">
+
+          <input
+            value={search}
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
+            placeholder="Search endpoint..."
+            className="border rounded-xl px-4 py-2 text-sm w-64"
+          />
+
+          <button
+            onClick={exportCSV}
+            className="bg-black text-white px-4 py-2 rounded-xl text-sm"
+          >
+
+            Export CSV
+
+          </button>
+
+        </div>
 
       </div>
 
-      {logs.length === 0 ? (
+      {filteredLogs.length === 0 ? (
 
         <div className="flex flex-col items-center justify-center py-24">
 
@@ -52,13 +147,13 @@ function LiveLogsTable({
 
           <h3 className="text-2xl font-bold mb-2">
 
-            No API Logs Yet
+            No Logs Found
 
           </h3>
 
           <p className="text-gray-500">
 
-            API requests will appear here in real time.
+            Try another search term.
 
           </p>
 
@@ -110,8 +205,11 @@ function LiveLogsTable({
 
             <tbody>
 
-              {logs.map(
-                (log, index) => (
+              {filteredLogs.map(
+                (
+                  log: Log,
+                  index: number
+                ) => (
 
                   <tr
                     key={index}

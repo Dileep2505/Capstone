@@ -44,11 +44,48 @@ router.get(
 
 router.get(
   "/users",
-  async (req, res) => {
-    return res.json({
-      success: true,
-      data: [],
-    });
+  async (_req, res) => {
+
+    try {
+
+      const users =
+        await prisma.user.findMany({
+
+          orderBy: {
+            createdAt: "desc",
+          },
+
+          select: {
+
+            id: true,
+
+            email: true,
+
+            plan: true,
+
+            monthlyQuota: true,
+
+            monthlyUsage: true,
+
+            status: true,
+
+            createdAt: true,
+          },
+        });
+
+      return res.json({
+        success: true,
+        data: users,
+      });
+
+    } catch (error) {
+
+      console.error(error);
+
+      return res.status(500).json({
+        success: false,
+      });
+    }
   }
 );
 
@@ -110,6 +147,50 @@ router.post(
         success: false,
         message:
           "Failed to create API key",
+      });
+    }
+  }
+);
+
+router.get(
+  "/usage",
+  authenticate,
+
+  async (req, res) => {
+
+    try {
+
+      const userId =
+        (req as any).user.userId;
+
+      const user =
+        await prisma.user.findUnique({
+
+          where: {
+            id: userId,
+          },
+
+          select: {
+
+            monthlyUsage: true,
+
+            monthlyQuota: true,
+
+            plan: true,
+          },
+        });
+
+      return res.json({
+        success: true,
+        data: user,
+      });
+
+    } catch (error) {
+
+      console.error(error);
+
+      return res.status(500).json({
+        success: false,
       });
     }
   }

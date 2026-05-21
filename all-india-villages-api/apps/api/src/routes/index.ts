@@ -11,6 +11,9 @@ import apiKeyRouter from "./apiKey.routes";
 import adminRouter from "./admin.routes";
 import adminUsersRoutes
 from "./adminUsers.routes";
+import {
+  checkQuota,
+} from "../middlewares/quota.middleware";
 
 const router = Router();
 
@@ -34,5 +37,7 @@ router.use("/users", userRouter);
 router.use("/api-keys", apiKeyRouter);
 
 router.use("/admin", adminRouter);
+
+
 
 export default router;

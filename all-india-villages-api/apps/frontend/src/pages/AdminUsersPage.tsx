@@ -1,157 +1,155 @@
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import {
-
   getUsers,
-
-  suspendUser,
-
-  activateUser,
-
 } from "../services/adminUsersApi";
 
 function AdminUsersPage() {
-
-  const queryClient =
-    useQueryClient();
 
   const {
     data,
     isLoading,
   } = useQuery({
 
-    queryKey:
-      ["admin-users"],
+    queryKey: ["users"],
 
-    queryFn:
-      getUsers,
+    queryFn: getUsers,
   });
-
-  const suspendMutation =
-    useMutation({
-
-      mutationFn:
-        suspendUser,
-
-      onSuccess: () => {
-
-        queryClient.invalidateQueries({
-
-          queryKey:
-            ["admin-users"],
-        });
-      },
-    });
-
-  const activateMutation =
-    useMutation({
-
-      mutationFn:
-        activateUser,
-
-      onSuccess: () => {
-
-        queryClient.invalidateQueries({
-
-          queryKey:
-            ["admin-users"],
-        });
-      },
-    });
 
   if (isLoading) {
 
     return (
+
       <div>
-        Loading...
+
+        Loading users...
+
       </div>
     );
   }
 
   return (
 
-    <div>
+    <div className="space-y-8">
 
-      <h1 className="text-4xl font-bold mb-8">
+      <div>
 
-        User Management
+        <h1 className="text-4xl font-bold mb-2">
 
-      </h1>
+          Users
 
-      <div className="space-y-4">
+        </h1>
 
-        {data.data.map(
-          (user: any) => (
+        <p className="text-gray-500">
 
-            <div
-              key={user.id}
-              className="bg-white rounded-xl shadow p-6 flex items-center justify-between"
-            >
+          Manage platform users
 
-              <div>
+        </p>
 
-                <h2 className="text-xl font-bold">
+      </div>
 
-                  {user.email}
+      <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
 
-                </h2>
+        <table className="w-full">
 
-                <p className="text-gray-500">
+          <thead className="bg-gray-50">
 
-                  {user.plan}
-                  {" • "}
-                  {user.status}
+            <tr>
 
-                </p>
+              <th className="text-left px-6 py-4">
 
-                <p className="text-sm text-gray-400 mt-1">
+                Email
 
-                  Usage:
-                  {" "}
-                  {user.monthlyUsage}
-                  /
-                  {user.monthlyQuota}
+              </th>
 
-                </p>
+              <th className="text-left px-6 py-4">
 
-              </div>
+                Plan
 
-              {user.status ===
-              "ACTIVE" ? (
+              </th>
 
-                <button
-                  onClick={() =>
-                    suspendMutation.mutate(
-                      user.id
-                    )
-                  }
-                  className="bg-red-500 text-white px-4 py-2 rounded"
+              <th className="text-left px-6 py-4">
+
+                Usage
+
+              </th>
+
+              <th className="text-left px-6 py-4">
+
+                Status
+
+              </th>
+
+              <th className="text-left px-6 py-4">
+
+                Created
+
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            {data?.data.map(
+              (user: any) => (
+
+                <tr
+                  key={user.id}
+                  className="border-t hover:bg-gray-50"
                 >
-                  Suspend
-                </button>
 
-              ) : (
+                  <td className="px-6 py-4">
 
-                <button
-                  onClick={() =>
-                    activateMutation.mutate(
-                      user.id
-                    )
-                  }
-                  className="bg-green-500 text-white px-4 py-2 rounded"
-                >
-                  Activate
-                </button>
+                    {user.email}
 
-              )}
+                  </td>
 
-            </div>
-          )
-        )}
+                  <td className="px-6 py-4">
+
+                    <span className="bg-black text-white px-3 py-1 rounded-xl text-sm">
+
+                      {user.plan}
+
+                    </span>
+
+                  </td>
+
+                  <td className="px-6 py-4">
+
+                    {user.monthlyUsage}
+                    {" / "}
+                    {user.monthlyQuota}
+
+                  </td>
+
+                  <td className="px-6 py-4">
+
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-xl text-sm">
+
+                      {user.status}
+
+                    </span>
+
+                  </td>
+
+                  <td className="px-6 py-4 text-gray-500 text-sm">
+
+                    {new Date(
+                      user.createdAt
+                    ).toLocaleDateString()}
+
+                  </td>
+
+                </tr>
+
+              )
+            )}
+
+          </tbody>
+
+        </table>
 
       </div>
 

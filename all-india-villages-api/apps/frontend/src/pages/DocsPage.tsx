@@ -1,6 +1,39 @@
-import EndpointCard from "../components/EndpointCard";
 
 function DocsPage() {
+
+  const endpoints = [
+
+    {
+      method: "GET",
+      endpoint: "/v1/states",
+      description:
+        "Get all Indian states",
+    },
+
+    {
+      method: "GET",
+      endpoint:
+        "/v1/districts?stateId=1",
+      description:
+        "Get districts by state",
+    },
+
+    {
+      method: "GET",
+      endpoint:
+        "/v1/subdistricts?districtId=1",
+      description:
+        "Get subdistricts",
+    },
+
+    {
+      method: "GET",
+      endpoint:
+        "/v1/villages?subdistrictId=1",
+      description:
+        "Get villages list",
+    },
+  ];
 
   return (
 
@@ -16,77 +49,125 @@ function DocsPage() {
 
         <p className="text-gray-500">
 
-          Integrate All India Villages API into your applications.
+          Complete developer reference
 
         </p>
 
       </div>
 
-      <div className="bg-white rounded-2xl shadow p-6">
+      <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
 
-        <h2 className="text-2xl font-bold mb-4">
+        <div className="px-6 py-5 border-b">
 
-          Authentication
+          <h2 className="text-2xl font-bold">
 
-        </h2>
+            Authentication
 
-        <p className="mb-4 text-gray-600">
+          </h2>
 
-          Include your API credentials in request headers.
+        </div>
 
-        </p>
+        <div className="p-6 space-y-4">
 
-        <div className="bg-black text-green-400 rounded-xl p-4">
+          <p className="text-gray-700">
 
-          <pre>
+            Include your API credentials
+            in request headers.
 
-{`X-API-Key: YOUR_API_KEY
-X-API-Secret: YOUR_API_SECRET`}
+          </p>
 
-          </pre>
+          <div className="bg-black text-green-400 rounded-xl p-4 overflow-auto">
+
+            <pre>{`x-api-key: YOUR_API_KEY
+x-api-secret: YOUR_API_SECRET`}</pre>
+
+          </div>
 
         </div>
 
       </div>
 
-      <EndpointCard
+      <div className="space-y-6">
 
-        method="GET"
+        {endpoints.map(
+          (api, index) => (
 
-        endpoint="/v1/states"
+            <div
+              key={index}
+              className="bg-white rounded-2xl border shadow-sm overflow-hidden"
+            >
 
-        description="Get all Indian states"
+              <div className="flex items-center justify-between px-6 py-5 border-b">
 
-        example={`curl -X GET http://localhost:3000/v1/states \\
--H "X-API-Key: YOUR_API_KEY" \\
--H "X-API-Secret: YOUR_API_SECRET"`}
-      />
+                <div>
 
-      <EndpointCard
+                  <h2 className="text-2xl font-bold">
 
-        method="GET"
+                    {api.endpoint}
 
-        endpoint="/v1/search?q=pur"
+                  </h2>
 
-        description="Search villages by name"
+                  <p className="text-gray-500 mt-1">
 
-        example={`curl -X GET "http://localhost:3000/v1/search?q=pur" \\
--H "X-API-Key: YOUR_API_KEY" \\
--H "X-API-Secret: YOUR_API_SECRET"`}
-      />
+                    {api.description}
 
-      <EndpointCard
+                  </p>
 
-        method="GET"
+                </div>
 
-        endpoint="/v1/autocomplete?q=man"
+                <span className="bg-green-100 text-green-700 px-3 py-1 rounded-xl text-sm font-semibold">
 
-        description="Autocomplete village names"
+                  {api.method}
 
-        example={`curl -X GET "http://localhost:3000/v1/autocomplete?q=man" \\
--H "X-API-Key: YOUR_API_KEY" \\
--H "X-API-Secret: YOUR_API_SECRET"`}
-      />
+                </span>
+
+              </div>
+
+              <div className="p-6 space-y-5">
+
+                <div>
+
+                  <h3 className="font-semibold mb-2">
+
+                    Example Request
+
+                  </h3>
+
+                  <div className="bg-black text-green-400 rounded-xl p-4 overflow-auto">
+
+                    <pre>{`curl https://all-india-villages-api-9q3f.onrender.com${api.endpoint}`}</pre>
+
+                  </div>
+
+                </div>
+
+                <div>
+
+                  <h3 className="font-semibold mb-2">
+
+                    Example Response
+
+                  </h3>
+
+                  <div className="bg-black text-green-400 rounded-xl p-4 overflow-auto">
+
+                    <pre>{`{
+  "success": true,
+  "data": []
+}`}</pre>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          )
+        )}
+
+      </div>
 
     </div>
   );
