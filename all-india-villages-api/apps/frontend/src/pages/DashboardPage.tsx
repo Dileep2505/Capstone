@@ -23,6 +23,7 @@ import Topbar from "../components/Topbar";
 import MetricCard from "../components/MetricCard";
 
 import LiveLogsTable from "../components/LiveLogsTable";
+
 import AnalyticsChart from "../components/AnalyticsChart";
 
 function DashboardPage() {
@@ -40,8 +41,9 @@ function DashboardPage() {
     queryFn:
       getDashboardStats,
 
-    enabled:
-      tab === "dashboard",
+    enabled: true,
+
+    refetchInterval: 5000,
   });
 
   return (
@@ -59,105 +61,122 @@ function DashboardPage() {
 
         <main className="p-8">
 
-          {tab === "dashboard" && (
+          {isLoading ? (
 
-            isLoading ? (
+            <div className="text-lg font-medium">
 
-              <div className="text-lg font-medium">
+              Loading dashboard...
 
-                Loading dashboard...
+            </div>
 
-              </div>
+          ) : (
 
-            ) : (
+            <>
 
-              <>
+              {tab === "dashboard" && (
 
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+                <>
 
-                  <MetricCard
-                    title="Total Users"
-                    value={
-                      data?.data.totalUsers || 0
-                    }
-                    icon="👥"
-                    change="+12%"
-                  />
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
 
-                  <MetricCard
-                    title="API Keys"
-                    value={
-                      data?.data.totalApiKeys || 0
-                    }
-                    icon="🔑"
-                    change="+5%"
-                  />
+                    <MetricCard
+                      title="Total Users"
+                      value={
+                        data?.data.totalUsers || 0
+                      }
+                      icon="👥"
+                      change="+12%"
+                    />
 
-                  <MetricCard
-                    title="Requests"
-                    value={
-                      data?.data.totalRequests || 0
-                    }
-                    icon="⚡"
-                    change="+28%"
-                  />
+                    <MetricCard
+                      title="API Keys"
+                      value={
+                        data?.data.totalApiKeys || 0
+                      }
+                      icon="🔑"
+                      change="+5%"
+                    />
 
-                  <MetricCard
-                    title="Avg Response"
-                    value={`${Math.round(
+                    <MetricCard
+                      title="Requests"
+                      value={
+                        data?.data.totalRequests || 0
+                      }
+                      icon="⚡"
+                      change="+28%"
+                    />
+
+                    <MetricCard
+                      title="Avg Response"
+                      value={`${Math.round(
+                        data?.data
+                          .averageResponseTime || 0
+                      )} ms`}
+                      icon="🚀"
+                      change="-8%"
+                    />
+
+                  </div>
+
+                  <div className="mb-8">
+
+                    <AnalyticsChart />
+
+                  </div>
+
+                  <LiveLogsTable
+                    logs={
                       data?.data
-                        .averageResponseTime || 0
-                    )} ms`}
-                    icon="🚀"
-                    change="-8%"
+                        .recentRequests || []
+                    }
                   />
 
-                </div>
-                <div className="mb-8">
+                </>
 
-  <AnalyticsChart />
+              )}
 
-</div>
+              {tab === "logs" && (
 
                 <LiveLogsTable
-  logs={
-    data?.data.recentRequests || []
-  }
-/>
+                  logs={
+                    data?.data
+                      .recentRequests || []
+                  }
+                />
 
-              </>
+              )}
 
-            )
+              {tab === "apiKeys" && (
 
-          )}
+                <ApiKeysPage />
 
-          {tab === "apiKeys" && (
+              )}
 
-            <ApiKeysPage />
+              {tab === "subscription" && (
 
-          )}
+                <SubscriptionPage />
 
-          {tab === "subscription" && (
+              )}
 
-            <SubscriptionPage />
+              {tab === "docs" && (
 
-          )}
+                <DocsPage />
 
-          {tab === "docs" && (
+              )}
 
-            <DocsPage />
+              {tab === "playground" && (
 
-          )}
+                <PlaygroundPage />
 
-          {tab === "playground" && (
+              )}
 
-            <PlaygroundPage />
+              {tab === "users" && (
 
-          )}
+                <AdminUsersPage />
 
-          {tab === "users" && (
+              )}
 
-            <AdminUsersPage />
+            </>
 
           )}
 
