@@ -14,15 +14,28 @@ import {
   getWeeklyAnalytics,
 } from "../services/analyticsApi";
 
-const { data } = useQuery({
-
-  queryKey: ["weeklyAnalytics"],
-
-  queryFn:
-    getWeeklyAnalytics,
-});
-
 function AnalyticsChart() {
+
+  const { data, isLoading } =
+    useQuery({
+
+      queryKey: ["weeklyAnalytics"],
+
+      queryFn:
+        getWeeklyAnalytics,
+    });
+
+  if (isLoading) {
+
+    return (
+
+      <div className="bg-white rounded-2xl shadow-sm border p-6">
+
+        Loading analytics...
+
+      </div>
+    );
+  }
 
   return (
 
@@ -39,6 +52,7 @@ function AnalyticsChart() {
         <p className="text-gray-500 text-sm">
 
           Weekly API requests
+
         </p>
 
       </div>
@@ -51,8 +65,8 @@ function AnalyticsChart() {
         >
 
           <LineChart
-  data={data?.data || []}
->
+            data={data?.data || []}
+          >
 
             <CartesianGrid
               strokeDasharray="3 3"
