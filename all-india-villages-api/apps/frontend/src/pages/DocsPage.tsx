@@ -134,9 +134,10 @@ x-api-secret: YOUR_API_SECRET`}</pre>
                   </h3>
 
                   <div className="bg-black text-green-400 rounded-xl p-4 overflow-auto">
-
-                    <pre>{`curl https://all-india-villages-api-9q3f.onrender.com${api.endpoint}`}</pre>
-
+                    {(() => {
+                      const base = import.meta.env.VITE_API_URL || window.location.origin;
+                      return <pre>{`curl ${base}${api.endpoint}`}</pre>;
+                    })()}
                   </div>
 
                 </div>
