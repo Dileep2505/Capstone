@@ -20,6 +20,24 @@ export async function ensureAdminUser() {
           data: { password: passwordHash },
         });
         console.log(`Updated password for admin user ${adminEmail}`);
+      } else if (adminEmail === defaultEmail) {
+        const isDefaultPassword = await bcrypt.compare(
+          defaultPassword,
+          existingUser.password
+        );
+
+        if (!isDefaultPassword) {
+          const passwordHash = await bcrypt.hash(defaultPassword, 10);
+          await prisma.user.update({
+            where: { email: adminEmail },
+            data: { password: passwordHash },
+          });
+          console.log(
+            `Reset admin password for ${adminEmail} to default credentials.`
+          );
+        } else {
+          console.log(`Admin user ${adminEmail} already exists with default password.`);
+        }
       } else {
         console.log(`Admin user ${adminEmail} already exists.`);
       }
