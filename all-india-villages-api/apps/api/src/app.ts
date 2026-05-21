@@ -6,6 +6,9 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { apiRateLimiter } from "./middlewares/rateLimit.middleware";
+import {
+  requestLogger,
+} from "./middlewares/requestLogger";
 
 dotenv.config();
 
@@ -19,6 +22,7 @@ app.use(express.json());
 app.use(apiRateLimiter);
 
 app.use(morgan("dev"));
+app.use(requestLogger);
 
 app.use("/v1", routes);
 
