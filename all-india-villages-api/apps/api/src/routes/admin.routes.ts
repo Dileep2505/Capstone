@@ -31,4 +31,18 @@ router.get(
   }
 );
 
+router.post(
+  "/api-keys",
+  async (req, res) => {
+
+    return res.json({
+      success: true,
+
+      data: {
+        key: "demo-api-key",
+      },
+    });
+  }
+);
+
 export default router;
