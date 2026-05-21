@@ -1,27 +1,20 @@
 import { Router } from "express";
 
+import {
+  getDashboardStats,
+} from "../controllers/admin.controller";
+
 const router = Router();
 
 router.get(
   "/dashboard",
-  async (req, res) => {
-    res.json({
-      success: true,
-      data: {
-        totalUsers: 1,
-        totalApiKeys: 0,
-        totalRequests: 0,
-        averageResponseTime: 0,
-        recentRequests: [],
-      },
-    });
-  }
+  getDashboardStats
 );
 
 router.get(
   "/api-keys",
   async (req, res) => {
-    res.json({
+    return res.json({
       success: true,
       data: [],
     });
@@ -31,7 +24,7 @@ router.get(
 router.get(
   "/users",
   async (req, res) => {
-    res.json({
+    return res.json({
       success: true,
       data: [],
     });
