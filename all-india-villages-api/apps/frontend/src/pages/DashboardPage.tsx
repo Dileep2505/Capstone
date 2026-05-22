@@ -50,6 +50,7 @@ function DashboardPage() {
   );
 
   const isAdmin = role === "ADMIN";
+  const isDemo = role === "DEMO";
 
   const {
     data: usageData,
@@ -213,6 +214,65 @@ function DashboardPage() {
               {tab === "dashboard" && !isAdmin && (
 
                 <div className="space-y-8">
+
+                  {isDemo && (
+                    <div>
+                      <h2 className="text-2xl font-semibold mb-4">Demo Client</h2>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div className="p-6 bg-white rounded-2xl border">
+                          <h3 className="font-semibold">Public Access</h3>
+                          <p className="text-sm text-gray-500 mt-2">No login required to try public endpoints and sample responses.</p>
+                          <div className="mt-4">
+                            <button onClick={() => setTab("docs")} className="text-sm text-blue-600">View Docs</button>
+                          </div>
+                        </div>
+
+                        <div className="p-6 bg-white rounded-2xl border">
+                          <h3 className="font-semibold">Demo APIs</h3>
+                          <p className="text-sm text-gray-500 mt-2">Limited quota for demo clients. Sample responses available in docs.</p>
+                          <p className="text-xs text-gray-400 mt-3">Quota used: {usageData?.data?.monthlyUsage ?? 0} / {usageData?.data?.monthlyQuota ?? "50"}</p>
+                          <div className="mt-4">
+                            <button onClick={() => setTab("playground")} className="text-sm text-blue-600">Try Playground</button>
+                          </div>
+                        </div>
+
+                        <div className="p-6 bg-white rounded-2xl border">
+                          <h3 className="font-semibold">Contact</h3>
+                          <p className="text-sm text-gray-500 mt-2">Business inquiries and API access requests.</p>
+                          <div className="mt-4">
+                            <a href="mailto:support@villageapi.example?subject=Demo%20API%20Access" className="text-sm text-blue-600">Contact Sales</a>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="p-6 bg-white rounded-2xl border">
+                          <h3 className="font-semibold">Marketing</h3>
+                          <p className="text-sm text-gray-500 mt-2">Pricing, features and quickstart guides.</p>
+                          <div className="mt-4">
+                            <button onClick={() => setTab("docs")} className="text-sm text-blue-600">Learn More</button>
+                          </div>
+                        </div>
+
+                        <div className="p-6 bg-white rounded-2xl border">
+                          <h3 className="font-semibold">Sample Responses</h3>
+                          <p className="text-sm text-gray-500 mt-2">View example payloads and response schemas.</p>
+                          <div className="mt-4">
+                            <button onClick={() => setTab("docs")} className="text-sm text-blue-600">Open Docs</button>
+                          </div>
+                        </div>
+
+                        <div className="p-6 bg-white rounded-2xl border">
+                          <h3 className="font-semibold">Request History</h3>
+                          <p className="text-sm text-gray-500 mt-2">See recent demo requests (rate-limited).</p>
+                          <div className="mt-4">
+                            <button onClick={() => setTab("dashboard")} className="text-sm text-blue-600">View Usage</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <button
