@@ -18,7 +18,7 @@ const portalCards: PortalCard[] = [
   {
     id: "admin",
     tag: "Admin User",
-    title: "Admin Portal As Admin Login",
+    title: "Admin Login",
     subtitle: "React SPA · Internal",
     description:
       "Full platform control — user approvals, API key management, analytics, and village master data.",
@@ -26,7 +26,7 @@ const portalCards: PortalCard[] = [
   {
     id: "b2b",
     tag: "B2B Client",
-    title: "B2B Client Portal as User Login",
+    title: "User Login",
     subtitle: "React SPA · Business",
     description:
       "For registered businesses — manage API keys, view usage analytics, access Swagger docs and integration guides.",
@@ -34,7 +34,7 @@ const portalCards: PortalCard[] = [
   {
     id: "demo",
     tag: "Demo Client",
-    title: "Demo Client as Demo Client Login",
+    title: "Demo Client Login",
     subtitle: "Contact Form · Public",
     description:
       "Try the live address autocomplete and village search API with a restricted demo key. No signup required.",
