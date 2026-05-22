@@ -10,25 +10,26 @@ type PortalCard = {
   id: PortalId;
   tag: string;
   title: string;
-  subtitle: string;
-  description: string;
+  // subtitle and description removed — simplified card
 };
 
 const portalCards: PortalCard[] = [
   {
     id: "admin",
     tag: "Admin User",
-    title: "Admin Login", 
-},
+    title: "Admin Login",
+  },
   {
     id: "b2b",
     tag: "B2B Client",
-    title: "User Login",  
-},
+    title: "User Login",
+  },
   {
     id: "demo",
     tag: "Demo Client",
-    title: "Demo Client Login",  },
+    title: "Demo Client Login",
+    // demo has no subtitle/description
+  },
 ];
 
 function PortalIcon({ portal }: { portal: PortalId }) {
@@ -186,8 +187,6 @@ function LoginPage() {
               </div>
 
               <h2>{card.title}</h2>
-              <div className="login-page__portal-subtitle">{card.subtitle}</div>
-              <p>{card.description}</p>
 
               <span className={`login-page__cta login-page__cta--${card.id}`}>
                 {card.id === "admin"
@@ -237,7 +236,6 @@ function LoginPage() {
 
               <div className="login-page__modal-title">
                 <h3>{portal.title}</h3>
-                <p>{portal.subtitle}</p>
               </div>
 
               <button type="button" className="login-page__close" onClick={closePortal}>
