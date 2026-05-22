@@ -69,9 +69,10 @@ function ApiKeyCard({
           onClick={() =>
             onRevoke(apiKey.id)
           }
-          className="bg-red-500 text-white px-4 py-2 rounded"
+          disabled={!apiKey.isActive}
+          className={`px-4 py-2 rounded font-medium ${apiKey.isActive ? "bg-red-500 text-white" : "bg-gray-300 text-gray-600 cursor-not-allowed"}`}
         >
-          Revoke
+          {apiKey.isActive ? "Revoke" : "Revoked"}
         </button>
 
       </div>
