@@ -26,6 +26,8 @@ function Sidebar({
     queryKey: ["usage"],
 
     queryFn: getUsage,
+    refetchInterval: 10000,
+    refetchOnWindowFocus: false,
   });
 
   const usage =
@@ -189,12 +191,13 @@ function Sidebar({
         </div>
 
         <p className="text-xs opacity-80 mt-3">
-
-          {usage.toLocaleString()}
+          Used <span className="font-semibold">{usage.toLocaleString()}</span>
           {" / "}
-          {quota.toLocaleString()}
+          <span className="font-semibold">{quota.toLocaleString()}</span>
           {" requests"}
-
+        </p>
+        <p className="text-xs opacity-70 mt-1">
+          Remaining: {Math.max(quota - usage, 0).toLocaleString()} requests
         </p>
 
         <button
