@@ -18,27 +18,17 @@ const portalCards: PortalCard[] = [
   {
     id: "admin",
     tag: "Admin User",
-    title: "Admin Login",
-    subtitle: "React SPA · Internal",
-    description:
-      "Full platform control — user approvals, API key management, analytics, and village master data.",
-  },
+    title: "Admin Login", 
+},
   {
     id: "b2b",
     tag: "B2B Client",
-    title: "User Login",
-    subtitle: "React SPA · Business",
-    description:
-      "For registered businesses — manage API keys, view usage analytics, access Swagger docs and integration guides.",
-  },
+    title: "User Login",  
+},
   {
     id: "demo",
     tag: "Demo Client",
-    title: "Demo Client Login",
-    subtitle: "Contact Form · Public",
-    description:
-      "Try the live address autocomplete and village search API with a restricted demo key. No signup required.",
-  },
+    title: "Demo Client Login",  },
 ];
 
 function PortalIcon({ portal }: { portal: PortalId }) {
