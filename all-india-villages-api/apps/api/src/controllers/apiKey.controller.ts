@@ -132,3 +132,36 @@ export const getUserApiKeys = async (
     });
   }
 };
+
+export const revokeApiKey = async (
+  req: AuthRequest,
+  res: Response
+) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+
+    const idParam = req.params.id;
+    const id = Array.isArray(idParam) ? idParam[0] : idParam;
+    const userId = req.user.userId;
+
+    const apiKey = await prisma.apiKey.findUnique({
+      where: { id },
+    });
+
+    if (!apiKey || apiKey.userId !== userId) {
+      return res.status(404).json({ success: false, message: "API key not found" });
+    }
+
+    const revokedKey = await prisma.apiKey.update({
+      where: { id },
+      data: { isActive: false },
+    });
+
+    return res.json({ success: true, data: revokedKey });
+  } catch (error) {
+    console.error("API KEY REVOKE ERROR:", error);
+    return res.status(500).json({ success: false, message: "Failed to revoke API key" });
+  }
+};

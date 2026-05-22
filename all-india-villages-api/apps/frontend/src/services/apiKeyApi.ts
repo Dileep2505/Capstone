@@ -46,14 +46,31 @@ export const createApiKey =
 export const revokeApiKey =
   async (id: string) => {
 
-    const response =
-      await api.delete(
-        `/v1/admin/api-keys/${id}`,
-        {
-          headers:
-            getAuthHeaders(),
-        }
-      );
+    try {
+      const response =
+        await api.delete(
+          `/v1/admin/api-keys/${id}`,
+          {
+            headers:
+              getAuthHeaders(),
+          }
+        );
 
-    return response.data;
+      return response.data;
+    } catch (error: any) {
+      if (error?.response?.status === 404) {
+        const fallbackResponse =
+          await api.delete(
+            `/v1/api-keys/${id}`,
+            {
+              headers:
+                getAuthHeaders(),
+            }
+          );
+
+        return fallbackResponse.data;
+      }
+
+      throw error;
+    }
 };

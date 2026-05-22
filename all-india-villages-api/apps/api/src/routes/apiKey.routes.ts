@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
   createApiKey,
   getUserApiKeys,
+  revokeApiKey,
 } from "../controllers/apiKey.controller";
 
 import {
@@ -21,6 +22,12 @@ router.get(
   "/",
   authenticate,
   getUserApiKeys
+);
+
+router.delete(
+  "/:id",
+  authenticate,
+  revokeApiKey
 );
 
 export default router;

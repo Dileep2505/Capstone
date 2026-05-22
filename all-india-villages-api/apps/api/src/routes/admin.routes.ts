@@ -13,6 +13,9 @@ import {
 import {
   getWeeklyAnalytics,
 } from "../controllers/analytics.controller";
+import {
+  revokeApiKey,
+} from "../controllers/apiKey.controller";
 
 const router = Router();
 
@@ -101,30 +104,8 @@ router.post("/api-keys", async (req, res) => {
   }
 });
 
-router.delete("/api-keys/:id", async (req, res) => {
-  try {
-    const userId = (req as any).user.userId;
-    const { id } = req.params;
+router.delete("/api-keys/:id", revokeApiKey);
 
-    const apiKey = await prisma.apiKey.findUnique({
-      where: { id },
-    });
-
-    if (!apiKey || apiKey.userId !== userId) {
-      return res.status(404).json({ success: false, message: "API key not found" });
-    }
-
-    const revokedKey = await prisma.apiKey.update({
-      where: { id },
-      data: { isActive: false },
-    });
-
-    return res.json({ success: true, data: revokedKey });
-  } catch (error) {
-    console.error("API KEY REVOKE ERROR:", error);
-    return res.status(500).json({ success: false, message: "Failed to revoke API key" });
-  }
-});
 
 router.get(
   "/usage",
