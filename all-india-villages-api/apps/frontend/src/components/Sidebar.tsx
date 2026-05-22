@@ -197,7 +197,10 @@ function Sidebar({
 
         </p>
 
-        <button className="mt-5 w-full bg-white text-black py-2 rounded-xl font-medium hover:bg-gray-200 transition">
+        <button
+          onClick={() => setTab("subscription")}
+          className="mt-5 w-full bg-white text-black py-2 rounded-xl font-medium hover:bg-gray-200 transition"
+        >
 
           Upgrade Plan
 
