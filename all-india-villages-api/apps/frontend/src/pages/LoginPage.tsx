@@ -18,8 +18,14 @@ function LoginPage() {
   const [password, setPassword] =
     useState("");
 
+  const [confirmPassword, setConfirmPassword] =
+    useState("");
+
   const [authMode, setAuthMode] =
-    useState<"user" | "admin">("admin");
+    useState<"user" | "admin">("user");
+
+  const [isRegister, setIsRegister] =
+    useState(false);
 
   const [loading, setLoading] =
     useState(false);
@@ -67,8 +73,46 @@ function LoginPage() {
     }
   };
 
-  const title = "Admin Login";
-  const submitLabel = "Login";
+  const handleRegister = async (
+    e: FormEvent
+  ) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await api.post(
+        "/v1/auth/register",
+        {
+          email,
+          password,
+        }
+      );
+
+      alert("Registration successful. Please log in.");
+      setIsRegister(false);
+      setPassword("");
+      setConfirmPassword("");
+    } catch (error) {
+      console.error(error);
+      alert("Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const title = isRegister
+    ? "Create an Account"
+    : authMode === "admin"
+    ? "Admin Login"
+    : "User Login";
+  const submitLabel = isRegister ? "Register" : "Login";
+  const showRegister = authMode === "user";
 
   return (
 
@@ -81,7 +125,24 @@ function LoginPage() {
             <div className="flex gap-2 mb-3">
               <button
                 type="button"
-                onClick={() => setAuthMode("admin")}
+                onClick={() => {
+                  setAuthMode("user");
+                  setIsRegister(false);
+                }}
+                className={`px-4 py-2 rounded-lg ${
+                  authMode === "user"
+                    ? "bg-black text-white"
+                    : "bg-gray-100 text-gray-700"
+                }`}
+              >
+                User Login
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthMode("admin");
+                  setIsRegister(false);
+                }}
                 className={`px-4 py-2 rounded-lg ${
                   authMode === "admin"
                     ? "bg-black text-white"
@@ -91,11 +152,25 @@ function LoginPage() {
                 Admin Login
               </button>
             </div>
-            <h2 className="text-2xl font-bold">{title}</h2>
+            <h2 className="text-2xl font-bold">
+              {title}
+            </h2>
           </div>
+          {showRegister && (
+            <button
+              type="button"
+              onClick={() => setIsRegister((value) => !value)}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              {isRegister ? "Go to Login" : "Create account"}
+            </button>
+          )}
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form
+          onSubmit={isRegister ? handleRegister : handleLogin}
+          className="space-y-4"
+        >
 
           <input
             type="email"
@@ -119,7 +194,18 @@ function LoginPage() {
             required
           />
 
-          {/* registration disabled - admin-only login UI */}
+          {showRegister && isRegister && (
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) =>
+                setConfirmPassword(e.target.value)
+              }
+              className="w-full border p-3 rounded"
+              required
+            />
+          )}
 
           <button
             disabled={loading}
