@@ -37,18 +37,25 @@ function DashboardPage() {
     (state) => state.role
   );
 
+  const isAdmin = role === "ADMIN";
+
   const {
     data,
     isLoading,
+    isError,
   } = useQuery({
 
-    queryKey: ["dashboard"],
+    queryKey: ["dashboard", role],
 
     queryFn:
       getDashboardStats,
 
+    enabled: isAdmin,
+
     refetchInterval: 5000,
   });
+
+  const dashboardData = data?.data;
 
   return (
 
@@ -65,7 +72,7 @@ function DashboardPage() {
 
         <main className="p-8">
 
-          {isLoading ? (
+          {isAdmin && isLoading ? (
 
             <div className="text-xl font-semibold">
 
@@ -73,11 +80,19 @@ function DashboardPage() {
 
             </div>
 
+          ) : isAdmin && isError ? (
+
+            <div className="text-xl font-semibold text-red-600">
+
+              Failed to load admin dashboard.
+
+            </div>
+
           ) : (
 
             <>
 
-              {tab === "dashboard" && (
+              {tab === "dashboard" && isAdmin && (
 
                 <>
 
@@ -86,7 +101,7 @@ function DashboardPage() {
                     <MetricCard
                       title="Total Users"
                       value={
-                        data?.data?.totalUsers || 0
+                        dashboardData?.totalUsers || 0
                       }
                       change="+12%"
                     />
@@ -94,7 +109,7 @@ function DashboardPage() {
                     <MetricCard
                       title="API Keys"
                       value={
-                        data?.data?.totalApiKeys || 0
+                        dashboardData?.totalApiKeys || 0
                       }
                       change="+5%"
                     />
@@ -102,7 +117,7 @@ function DashboardPage() {
                     <MetricCard
                       title="Requests"
                       value={
-                        data?.data?.totalRequests || 0
+                        dashboardData?.totalRequests || 0
                       }
                       change="+28%"
                     />
@@ -110,7 +125,7 @@ function DashboardPage() {
                     <MetricCard
                       title="Avg Response"
                       value={`${Math.round(
-                        data?.data
+                        dashboardData
                           ?.averageResponseTime || 0
                       )} ms`}
                       change="-8%"
@@ -126,12 +141,52 @@ function DashboardPage() {
 
                   <LiveLogsTable
                     logs={
-                      data?.data
+                      dashboardData
                         ?.recentRequests || []
                     }
                   />
 
                 </>
+
+              )}
+
+              {tab === "dashboard" && !isAdmin && (
+
+                <div className="max-w-3xl">
+
+                  <h1 className="text-3xl font-bold mb-3">
+
+                    Welcome back
+
+                  </h1>
+
+                  <p className="text-gray-600 mb-6">
+
+                    Your account is active. Use API Playground, API Keys, Plans, and API Docs from the sidebar.
+
+                  </p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <div className="bg-white rounded-3xl p-6 shadow-sm border">
+
+                      <div className="text-sm text-gray-500">Account type</div>
+
+                      <div className="text-2xl font-bold mt-2">User</div>
+
+                    </div>
+
+                    <div className="bg-white rounded-3xl p-6 shadow-sm border">
+
+                      <div className="text-sm text-gray-500">Available tools</div>
+
+                      <div className="text-2xl font-bold mt-2">API access</div>
+
+                    </div>
+
+                  </div>
+
+                </div>
 
               )}
 
@@ -147,7 +202,7 @@ function DashboardPage() {
 
                   <LiveLogsTable
                     logs={
-                      data?.data
+                      dashboardData
                         ?.recentRequests || []
                     }
                   />
