@@ -42,8 +42,8 @@ function LoginPage() {
 
       const response =
         await api.post(
-      const [isRegister, setIsRegister] =
-        useState(false);
+          "/v1/auth/login",
+          {
             email,
             password,
           },
@@ -118,9 +118,13 @@ function LoginPage() {
 
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
 
-      const title = isRegister ? "Create an Account" : "User Login";
+      <div className="bg-white p-8 rounded shadow w-full max-w-md">
+
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <div className="flex gap-2 mb-3">
               <button
-      const showRegister = true;
+                type="button"
                 onClick={() => {
                   setAuthMode("user");
                   setIsRegister(false);
@@ -134,12 +138,31 @@ function LoginPage() {
                 User Login
               </button>
               <button
-                      setIsRegister(false);
-                    }}
-                    className={`px-4 py-2 rounded-lg bg-black text-white`}
+                type="button"
+                onClick={() => {
+                  setAuthMode("admin");
+                  setIsRegister(false);
+                }}
+                className={`px-4 py-2 rounded-lg ${
+                  authMode === "admin"
+                    ? "bg-black text-white"
                     : "bg-gray-100 text-gray-700"
                 }`}
               >
+                Admin Login
+              </button>
+            </div>
+            <h2 className="text-2xl font-bold">
+              {title}
+            </h2>
+          </div>
+          {showRegister && (
+            <button
+              type="button"
+              onClick={() => setIsRegister((value) => !value)}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              {isRegister ? "Go to Login" : "Create account"}
             </button>
           )}
         </div>

@@ -105,7 +105,16 @@ export const loginUser = async (
       });
     }
 
-    // No special admin-only login enforcement — allow all users to authenticate here.
+    // If request indicates an admin login attempt, reject non-admin users
+    const adminAttemptHeader =
+      (req.headers["x-admin-login"] as string) ||
+      (req.body && req.body.admin);
+
+    if (adminAttemptHeader) {
+      if (user.role !== "ADMIN") {
+        return res.status(403).json({ success: false, message: "Admin login only" });
+      }
+    }
 
     const token = jwt.sign(
       {
