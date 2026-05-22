@@ -21,6 +21,9 @@ function LoginPage() {
   const [confirmPassword, setConfirmPassword] =
     useState("");
 
+  const [authMode, setAuthMode] =
+    useState<"user" | "admin">("user");
+
   const [isRegister, setIsRegister] =
     useState(false);
 
@@ -96,8 +99,13 @@ function LoginPage() {
     }
   };
 
-  const title = isRegister ? "Create an Account" : "User Login";
+  const title = isRegister
+    ? "Create an Account"
+    : authMode === "admin"
+    ? "Admin Login"
+    : "User Login";
   const submitLabel = isRegister ? "Register" : "Login";
+  const showRegister = authMode === "user";
 
   return (
 
@@ -106,16 +114,50 @@ function LoginPage() {
       <div className="bg-white p-8 rounded shadow w-full max-w-md">
 
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold">
-            {title}
-          </h2>
-          <button
-            type="button"
-            onClick={() => setIsRegister((value) => !value)}
-            className="text-sm text-blue-600 hover:underline"
-          >
-            {isRegister ? "Go to Login" : "Create account"}
-          </button>
+          <div>
+            <div className="flex gap-2 mb-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthMode("user");
+                  setIsRegister(false);
+                }}
+                className={`px-4 py-2 rounded-lg ${
+                  authMode === "user"
+                    ? "bg-black text-white"
+                    : "bg-gray-100 text-gray-700"
+                }`}
+              >
+                User Login
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthMode("admin");
+                  setIsRegister(false);
+                }}
+                className={`px-4 py-2 rounded-lg ${
+                  authMode === "admin"
+                    ? "bg-black text-white"
+                    : "bg-gray-100 text-gray-700"
+                }`}
+              >
+                Admin Login
+              </button>
+            </div>
+            <h2 className="text-2xl font-bold">
+              {title}
+            </h2>
+          </div>
+          {showRegister && (
+            <button
+              type="button"
+              onClick={() => setIsRegister((value) => !value)}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              {isRegister ? "Go to Login" : "Create account"}
+            </button>
+          )}
         </div>
 
         <form
@@ -145,7 +187,7 @@ function LoginPage() {
             required
           />
 
-          {isRegister && (
+          {showRegister && isRegister && (
             <input
               type="password"
               placeholder="Confirm Password"
