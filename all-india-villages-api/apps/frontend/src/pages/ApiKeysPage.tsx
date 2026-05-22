@@ -75,7 +75,7 @@ function ApiKeysPage() {
 
       </div>
 
-      <div className="space-y-4">
+      <div className="max-h-[700px] overflow-y-auto space-y-4 pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
 
         {data.data.map(
           (apiKey: any) => (
