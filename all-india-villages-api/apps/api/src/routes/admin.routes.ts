@@ -23,9 +23,15 @@ router.use(authenticate);
 
 router.get("/dashboard", getDashboardStats);
 
-router.get("/api-keys", async (_req, res) => {
+router.get("/api-keys", async (req, res) => {
   try {
-    const apiKeys = await prisma.apiKey.findMany({ orderBy: { createdAt: "desc" } });
+    const userId = (req as any).user.userId;
+
+    const apiKeys = await prisma.apiKey.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+    });
+
     return res.json({ success: true, data: apiKeys });
   } catch (error) {
     console.error(error);
