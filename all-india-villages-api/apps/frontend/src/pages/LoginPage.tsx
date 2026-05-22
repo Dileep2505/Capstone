@@ -10,7 +10,9 @@ type PortalCard = {
   id: PortalId;
   tag: string;
   title: string;
-  // subtitle and description removed — simplified card
+  // Keep optional subtitle/description to satisfy any lingering references
+  subtitle?: string;
+  description?: string;
 };
 
 const portalCards: PortalCard[] = [
