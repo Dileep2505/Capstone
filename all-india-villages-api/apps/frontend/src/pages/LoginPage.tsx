@@ -46,6 +46,12 @@ function LoginPage() {
           {
             email,
             password,
+          },
+          {
+            headers:
+              authMode === "admin"
+                ? { "x-admin-login": "1" }
+                : undefined,
           }
         );
 
