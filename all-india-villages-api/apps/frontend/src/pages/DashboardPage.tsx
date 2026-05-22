@@ -214,6 +214,58 @@ function DashboardPage() {
 
                 <div className="space-y-8">
 
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <button
+                      onClick={() => setTab("apiKeys")}
+                      className="p-6 bg-white rounded-2xl border hover:shadow-md text-left"
+                    >
+                      <h3 className="font-semibold text-lg">API Access</h3>
+                      <p className="text-sm text-gray-500 mt-2">API key & secret, usage quotas, and access controls.</p>
+                    </button>
+
+                    <button
+                      onClick={() => setTab("docs")}
+                      className="p-6 bg-white rounded-2xl border hover:shadow-md text-left"
+                    >
+                      <h3 className="font-semibold text-lg">Documentation</h3>
+                      <p className="text-sm text-gray-500 mt-2">API docs, request examples and SDK snippets.</p>
+                    </button>
+
+                    <button
+                      onClick={() => setTab("subscription")}
+                      className="p-6 bg-white rounded-2xl border hover:shadow-md text-left"
+                    >
+                      <h3 className="font-semibold text-lg">Billing</h3>
+                      <p className="text-sm text-gray-500 mt-2">Subscription plans, quota limits and billing history.</p>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <button
+                      onClick={() => setTab("playground")}
+                      className="p-6 bg-white rounded-2xl border hover:shadow-md text-left"
+                    >
+                      <h3 className="font-semibold text-lg">Playground</h3>
+                      <p className="text-sm text-gray-500 mt-2">Test API endpoints and try request examples directly.</p>
+                    </button>
+
+                    <button
+                      onClick={() => setTab("dashboard")}
+                      className="p-6 bg-white rounded-2xl border hover:shadow-md text-left"
+                    >
+                      <h3 className="font-semibold text-lg">Analytics</h3>
+                      <p className="text-sm text-gray-500 mt-2">Usage reports and request history for your account.</p>
+                    </button>
+
+                    <button
+                      onClick={() => alert("Notifications will appear here (coming soon)")}
+                      className="p-6 bg-white rounded-2xl border hover:shadow-md text-left"
+                    >
+                      <h3 className="font-semibold text-lg">Notifications</h3>
+                      <p className="text-sm text-gray-500 mt-2">Get quota alerts and API update notifications.</p>
+                    </button>
+                  </div>
+
                   <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
 
                     <div>
