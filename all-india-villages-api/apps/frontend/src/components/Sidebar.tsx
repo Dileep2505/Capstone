@@ -5,6 +5,10 @@ import {
   getUsage,
 } from "../services/usageApi";
 
+import {
+  useAuthStore,
+} from "../store/authStore";
+
 interface SidebarProps {
 
   tab: string;
@@ -18,6 +22,10 @@ function Sidebar({
   tab,
   setTab,
 }: SidebarProps) {
+
+  const role = useAuthStore(
+    (state) => state.role
+  );
 
   const {
     data,
@@ -146,16 +154,18 @@ function Sidebar({
              API Docs
           </button>
 
-          <button
-            onClick={() =>
-              setTab("users")
-            }
-            className={itemClass(
-              tab === "users"
-            )}
-          >
-             Users
-          </button>
+          {role === "ADMIN" && (
+            <button
+              onClick={() =>
+                setTab("users")
+              }
+              className={itemClass(
+                tab === "users"
+              )}
+            >
+               Users
+            </button>
+          )}
 
         </nav>
 

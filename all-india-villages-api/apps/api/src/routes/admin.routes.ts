@@ -9,6 +9,7 @@ import {
 import {
   authenticate,
 } from "../middlewares/auth.middleware";
+import { ensureAdmin } from "../middlewares/admin.middleware";
 
 import {
   getWeeklyAnalytics,
@@ -19,7 +20,7 @@ import {
 
 const router = Router();
 
-router.use(authenticate);
+router.use(authenticate, ensureAdmin);
 
 router.get("/dashboard", getDashboardStats);
 

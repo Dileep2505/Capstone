@@ -11,7 +11,12 @@ import {
 
 } from "../controllers/adminUsers.controller";
 
+import { authenticate } from "../middlewares/auth.middleware";
+import { ensureAdmin } from "../middlewares/admin.middleware";
+
 const router = Router();
+
+router.use(authenticate, ensureAdmin);
 
 router.get(
   "/users",

@@ -6,6 +6,8 @@ import {
   getDashboardStats,
 } from "../services/adminApi";
 
+import { useAuthStore } from "../store/authStore";
+
 import ApiKeysPage from "./ApiKeysPage";
 
 import SubscriptionPage from "./SubscriptionPage";
@@ -30,6 +32,10 @@ function DashboardPage() {
 
   const [tab, setTab] =
     useState("dashboard");
+
+  const role = useAuthStore(
+    (state) => state.role
+  );
 
   const {
     data,
@@ -174,7 +180,7 @@ function DashboardPage() {
 
               )}
 
-              {tab === "users" && (
+              {tab === "users" && role === "ADMIN" && (
 
                 <AdminUsersPage />
 

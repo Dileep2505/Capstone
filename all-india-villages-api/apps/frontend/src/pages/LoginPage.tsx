@@ -50,7 +50,8 @@ function LoginPage() {
         );
 
       setToken(
-        response.data.token
+        response.data.token,
+        response.data.role
       );
 
       window.location.reload();

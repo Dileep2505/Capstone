@@ -4,8 +4,11 @@ interface AuthState {
 
   token: string | null;
 
+  role: string | null;
+
   setToken: (
-    token: string
+    token: string,
+    role?: string
   ) => void;
 
   logout: () => void;
@@ -17,14 +20,22 @@ export const useAuthStore =
     token:
       localStorage.getItem("token"),
 
-    setToken: (token) => {
+    role:
+      localStorage.getItem("role"),
+
+    setToken: (token, role = "USER") => {
 
       localStorage.setItem(
         "token",
         token
       );
 
-      set({ token });
+      localStorage.setItem(
+        "role",
+        role
+      );
+
+      set({ token, role });
     },
 
     logout: () => {
@@ -33,6 +44,10 @@ export const useAuthStore =
         "token"
       );
 
-      set({ token: null });
+      localStorage.removeItem(
+        "role"
+      );
+
+      set({ token: null, role: null });
     },
   }));

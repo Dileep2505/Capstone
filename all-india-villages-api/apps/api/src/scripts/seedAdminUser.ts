@@ -3,7 +3,7 @@ import { prisma } from "../config/prisma";
 
 export async function ensureAdminUser() {
   const defaultEmail = "admin@test.com";
-  const defaultPassword = "123456";
+  const defaultPassword = "Admin";
   const adminEmail = process.env.ADMIN_EMAIL || defaultEmail;
   const adminPassword = process.env.ADMIN_PASSWORD || defaultPassword;
 
@@ -13,34 +13,15 @@ export async function ensureAdminUser() {
     });
 
     if (existingUser) {
-      if (process.env.ADMIN_PASSWORD) {
-        const passwordHash = await bcrypt.hash(adminPassword, 10);
-        await prisma.user.update({
-          where: { email: adminEmail },
-          data: { password: passwordHash },
-        });
-        console.log(`Updated password for admin user ${adminEmail}`);
-      } else if (adminEmail === defaultEmail) {
-        const isDefaultPassword = await bcrypt.compare(
-          defaultPassword,
-          existingUser.password
-        );
-
-        if (!isDefaultPassword) {
-          const passwordHash = await bcrypt.hash(defaultPassword, 10);
-          await prisma.user.update({
-            where: { email: adminEmail },
-            data: { password: passwordHash },
-          });
-          console.log(
-            `Reset admin password for ${adminEmail} to default credentials.`
-          );
-        } else {
-          console.log(`Admin user ${adminEmail} already exists with default password.`);
-        }
-      } else {
-        console.log(`Admin user ${adminEmail} already exists.`);
-      }
+      const passwordHash = await bcrypt.hash(adminPassword, 10);
+      await prisma.user.update({
+        where: { email: adminEmail },
+        data: {
+          password: passwordHash,
+          role: "ADMIN",
+        },
+      });
+      console.log(`Updated admin user ${adminEmail} with role ADMIN`);
       return { email: adminEmail, password: adminPassword };
     }
 
@@ -57,10 +38,11 @@ export async function ensureAdminUser() {
       data: {
         email: adminEmail,
         password: passwordHash,
+        role: "ADMIN",
       },
     });
 
-    console.log(`Created admin user ${adminEmail}`);
+    console.log(`Created admin user ${adminEmail} with password ${adminPassword}`);
     return { email: adminEmail, password: adminPassword };
   } catch (err) {
     console.error("Failed to ensure admin user", err);

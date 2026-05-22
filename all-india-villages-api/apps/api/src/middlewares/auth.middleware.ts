@@ -8,6 +8,7 @@ export interface AuthRequest
   user?: {
     userId: string;
     email: string;
+    role?: string;
   };
 }
 
@@ -40,6 +41,7 @@ export const authenticate = (
       ) as {
         userId: string;
         email: string;
+        role?: string;
       };
 
     req.user = decoded;
