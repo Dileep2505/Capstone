@@ -77,7 +77,6 @@ function LoginPage() {
   const [activePortal, setActivePortal] = useState<PortalId | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [twoFactor, setTwoFactor] = useState("");
   const [demoEmail, setDemoEmail] = useState("demo@example.com");
   const [demoUseCase, setDemoUseCase] = useState("");
   const [loading, setLoading] = useState(false);
@@ -104,7 +103,6 @@ function LoginPage() {
     if (portalId === "admin") {
       setEmail("admin@login.com");
       setPassword("");
-      setTwoFactor("");
     }
 
     if (portalId === "demo") {
@@ -124,7 +122,7 @@ function LoginPage() {
       return;
     }
 
-    const loginEmail = activePortal === "demo" ? demoEmail || "demo@example.com" : email;
+    const loginEmail = activePortal === "demo" ? demoEmail || " " : email;
     const loginPassword = activePortal === "demo" ? "demo-password" : password;
 
     try {
@@ -173,15 +171,10 @@ function LoginPage() {
           </div>
 
           <h1 className="login-page__title">
-            Access the <em>Client Layer</em>
+            CAPSTONE
           </h1>
 
-          <p className="login-page__subtitle">
-            India&apos;s most complete village data platform · 6,40,930 villages · Census 2011
-          </p>
         </header>
-
-        <div className="login-page__layer-label">Client Layer — React SPA</div>
 
         <section className="login-page__portals">
           {portalCards.map((card) => (
@@ -210,7 +203,7 @@ function LoginPage() {
                 {card.id === "admin"
                   ? "Sign in as Admin"
                   : card.id === "b2b"
-                    ? "Business Sign In"
+                    ? "User Sign In"
                     : "Try the Demo"}
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M5 12h14" />
@@ -288,17 +281,7 @@ function LoginPage() {
                       />
                     </div>
 
-                    <div className="login-page__field">
-                      <label>2FA Code</label>
-                      <input
-                        type="text"
-                        placeholder="6-digit OTP"
-                        maxLength={6}
-                        value={twoFactor}
-                        onChange={(event) => setTwoFactor(event.target.value)}
-                      />
-                    </div>
-
+                    
                     <div className="login-page__remember-row">
                       <label className="login-page__check-label">
                         <input type="checkbox" />
@@ -311,20 +294,8 @@ function LoginPage() {
 
                 {portal.id === "b2b" && (
                   <>
-                    <button type="button" className="login-page__oauth-btn">
-                      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                      </svg>
-                      Continue with Google
-                    </button>
-
-                    <div className="login-page__divider">or sign in with email</div>
-
                     <div className="login-page__field">
-                      <label>Business Email</label>
+                      <label>User Email</label>
                       <input
                         type="email"
                         placeholder="you@yourcompany.com"
@@ -414,13 +385,13 @@ function LoginPage() {
 
               {portal.id === "b2b" && (
                 <>
-                  New business? <a href="#">Register for access →</a>
+                  New User? <a href="#">Register for access →</a>
                 </>
               )}
 
               {portal.id === "demo" && (
                 <>
-                  Want full access? <a href="#">Register a business account →</a>
+                  Want full access? <a href="#">Register a Demo account →</a>
                 </>
               )}
             </div>
