@@ -78,6 +78,12 @@ export const loginUser = async (
       where: {
         email,
       },
+      select: {
+        id: true,
+        email: true,
+        password: true,
+        role: true,
+      },
     });
 
     if (!user) {
