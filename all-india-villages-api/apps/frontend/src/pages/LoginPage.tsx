@@ -96,7 +96,7 @@ function LoginPage() {
     }
   };
 
-  const title = isRegister ? "Create an Account" : "Admin Login";
+  const title = isRegister ? "Create an Account" : "User Login";
   const submitLabel = isRegister ? "Register" : "Login";
 
   return (
