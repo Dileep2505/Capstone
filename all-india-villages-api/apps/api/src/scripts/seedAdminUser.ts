@@ -25,24 +25,23 @@ export async function ensureAdminUser() {
       return { email: adminEmail, password: adminPassword };
     }
 
-    const userCount = await prisma.user.count();
-    if (userCount > 0 && !process.env.ADMIN_PASSWORD) {
-      console.log(
-        `Existing users found; skipping admin seed for ${adminEmail}.`
-      );
-      return null;
-    }
-
     const passwordHash = await bcrypt.hash(adminPassword, 10);
-    await prisma.user.create({
-      data: {
+    await prisma.user.upsert({
+      where: { email: adminEmail },
+      update: {
+        password: passwordHash,
+        role: "ADMIN",
+      },
+      create: {
         email: adminEmail,
         password: passwordHash,
         role: "ADMIN",
       },
     });
 
-    console.log(`Created admin user ${adminEmail} with password ${adminPassword}`);
+    console.log(
+      `Ensured admin user ${adminEmail} exists with role ADMIN and expected password`
+    );
     return { email: adminEmail, password: adminPassword };
   } catch (err) {
     console.error("Failed to ensure admin user", err);
