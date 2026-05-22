@@ -2,12 +2,10 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '../config/prisma';
 
 /**
- * Create a demo API key for local/dev if none exists.
- * Runs only when NODE_ENV !== 'production'.
+ * Create a demo API key if none exists.
+ * The demo portal is part of the public login surface, so it must be available in every environment.
  */
 export async function ensureDemoApiKey() {
-  if (process.env.NODE_ENV === 'production') return;
-
   const demoKey = process.env.DEMO_API_KEY || 'demo-key';
   const demoSecret = process.env.DEMO_API_SECRET || 'demo-secret';
 
