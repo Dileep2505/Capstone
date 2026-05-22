@@ -98,6 +98,13 @@ function DashboardPage() {
 
   const userUsage = usageData?.data;
   const userApiKeys = apiKeysData?.data || [];
+  const usagePercent = Math.min(
+    Math.round(
+      ((userUsage?.monthlyUsage || 0) /
+        Math.max(userUsage?.monthlyQuota || 1, 1)) * 100
+    ),
+    100
+  );
 
   const handleCreateApiKey = async () => {
     const response = await createApiKey();
@@ -207,7 +214,7 @@ function DashboardPage() {
 
                 <div className="space-y-8">
 
-                  <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                  <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
 
                     <div>
 
@@ -217,9 +224,9 @@ function DashboardPage() {
 
                       </h1>
 
-                      <p className="text-gray-600 text-lg max-w-2xl">
+                      <p className="text-gray-500 text-lg max-w-2xl">
 
-                        Track your usage, manage your API keys, and jump straight into the playground or docs.
+                        Monitor your usage, API keys, and plan status from the same dashboard layout as admin users.
 
                       </p>
 
@@ -236,51 +243,174 @@ function DashboardPage() {
 
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
 
-                    <div className="rounded-3xl bg-white p-6 shadow-sm border">
+                    <MetricCard
+                      title="Plan"
+                      value={(userUsage?.plan || "FREE").toUpperCase()}
+                      change={isAdmin ? "+0%" : "Active"}
+                    />
 
-                      <div className="text-sm text-gray-500">Plan</div>
+                    <MetricCard
+                      title="Monthly Usage"
+                      value={usageLoading ? "—" : (userUsage?.monthlyUsage || 0).toLocaleString()}
+                      change={`${usagePercent}%`}
+                    />
 
-                      <div className="mt-2 text-3xl font-bold uppercase">
+                    <MetricCard
+                      title="Remaining"
+                      value={usageLoading ? "—" : (userUsage?.remainingRequests || 0).toLocaleString()}
+                      change="This month"
+                    />
 
-                        {userUsage?.plan || "FREE"}
+                    <MetricCard
+                      title="API Keys"
+                      value={apiKeysLoading ? "—" : userApiKeys.length}
+                      change={userApiKeys.length === 1 ? "1 key" : `${userApiKeys.length} keys`}
+                    />
+
+                  </div>
+
+                  <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+
+                    <div className="xl:col-span-2">
+
+                      <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
+
+                        <div className="px-6 py-5 border-b">
+
+                          <h2 className="text-2xl font-bold">Usage Overview</h2>
+
+                          <p className="text-gray-500 mt-1">Your plan usage for the current billing cycle</p>
+
+                        </div>
+
+                        <div className="p-6 space-y-6">
+
+                          <div className="flex items-end justify-between">
+
+                            <div>
+
+                              <div className="text-sm text-gray-500">Quota used</div>
+
+                              <div className="text-3xl font-bold mt-2">
+
+                                {usageLoading ? "—" : `${userUsage?.monthlyUsage || 0} / ${userUsage?.monthlyQuota || 0}`}
+
+                              </div>
+
+                            </div>
+
+                            <div className="text-right">
+
+                              <div className="text-sm text-gray-500">Remaining</div>
+
+                              <div className="text-3xl font-bold mt-2">
+
+                                {usageLoading ? "—" : (userUsage?.remainingRequests || 0).toLocaleString()}
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                          <div className="h-4 rounded-full bg-gray-100 overflow-hidden">
+
+                            <div
+                              className="h-full rounded-full bg-black transition-all"
+                              style={{ width: `${usagePercent}%` }}
+                            />
+
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                            <div className="rounded-2xl border p-4">
+
+                              <div className="text-sm text-gray-500">Plan</div>
+
+                              <div className="text-xl font-semibold mt-1">{userUsage?.plan || "FREE"}</div>
+
+                            </div>
+
+                            <div className="rounded-2xl border p-4">
+
+                              <div className="text-sm text-gray-500">API Keys</div>
+
+                              <div className="text-xl font-semibold mt-1">{userApiKeys.length}</div>
+
+                            </div>
+
+                            <div className="rounded-2xl border p-4">
+
+                              <div className="text-sm text-gray-500">Access</div>
+
+                              <div className="text-xl font-semibold mt-1">Developer</div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
 
                       </div>
 
                     </div>
 
-                    <div className="rounded-3xl bg-white p-6 shadow-sm border">
+                    <div className="space-y-6">
 
-                      <div className="text-sm text-gray-500">This month</div>
+                      <div className="bg-white rounded-2xl shadow-sm border p-6">
 
-                      <div className="mt-2 text-3xl font-bold">
+                        <h3 className="text-xl font-bold mb-3">Quick Start</h3>
 
-                        {usageLoading ? "—" : (userUsage?.monthlyUsage || 0).toLocaleString()}
+                        <ol className="space-y-3 text-sm text-gray-600 list-decimal list-inside">
 
-                      </div>
+                          <li>Generate an API key from the action button.</li>
 
-                    </div>
+                          <li>Use API Playground to test endpoints.</li>
 
-                    <div className="rounded-3xl bg-white p-6 shadow-sm border">
+                          <li>Open API Docs for request headers and examples.</li>
 
-                      <div className="text-sm text-gray-500">Remaining</div>
-
-                      <div className="mt-2 text-3xl font-bold">
-
-                        {usageLoading ? "—" : (userUsage?.remainingRequests || 0).toLocaleString()}
+                        </ol>
 
                       </div>
 
-                    </div>
+                      <div className="bg-black rounded-2xl shadow-lg overflow-hidden text-white">
 
-                    <div className="rounded-3xl bg-white p-6 shadow-sm border">
+                        <div className="px-6 py-5 border-b border-gray-800">
 
-                      <div className="text-sm text-gray-500">API Keys</div>
+                          <h3 className="text-xl font-bold">Recent Keys</h3>
 
-                      <div className="mt-2 text-3xl font-bold">
+                        </div>
 
-                        {apiKeysLoading ? "—" : userApiKeys.length}
+                        <div className="p-6 space-y-3">
+
+                          {userApiKeys.length === 0 ? (
+
+                            <p className="text-sm text-gray-300">No keys yet. Generate one to begin.</p>
+
+                          ) : (
+
+                            userApiKeys.slice(0, 3).map((apiKey: any) => (
+
+                              <div key={apiKey.id} className="rounded-xl bg-white/10 p-4">
+
+                                <div className="font-medium truncate">{apiKey.key}</div>
+
+                                <div className="text-xs text-gray-300 mt-1">
+
+                                  {apiKey.isActive ? "Active" : "Revoked"}
+
+                                </div>
+
+                              </div>
+
+                            ))
+
+                          )}
+
+                        </div>
 
                       </div>
 
@@ -288,27 +418,27 @@ function DashboardPage() {
 
                   </div>
 
-                  <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                  <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
 
-                    <div className="xl:col-span-2 space-y-5">
+                    <div className="px-6 py-5 border-b flex items-center justify-between">
 
-                      <div className="flex items-center justify-between">
+                      <div>
 
-                        <div>
+                        <h2 className="text-2xl font-bold">Your API Keys</h2>
 
-                          <h2 className="text-2xl font-bold">Your API Keys</h2>
-
-                          <p className="text-gray-500">Create and revoke keys from one place.</p>
-
-                        </div>
+                        <p className="text-gray-500 mt-1">Create and revoke keys from one place</p>
 
                       </div>
+
+                    </div>
+
+                    <div className="p-6">
 
                       <div className="space-y-4">
 
                         {userApiKeys.length === 0 ? (
 
-                          <div className="rounded-3xl border bg-white p-8 text-gray-500 shadow-sm">
+                          <div className="rounded-3xl border bg-gray-50 p-8 text-gray-500">
 
                             No API keys yet. Generate one to start using the API.
 
@@ -327,55 +457,6 @@ function DashboardPage() {
                           ))
 
                         )}
-
-                      </div>
-
-                    </div>
-
-                    <div className="space-y-6">
-
-                      <div className="rounded-3xl bg-white p-6 shadow-sm border">
-
-                        <h3 className="text-xl font-bold mb-3">Quick Start</h3>
-
-                        <ol className="space-y-3 text-sm text-gray-600 list-decimal list-inside">
-
-                          <li>Generate an API key from the button above.</li>
-
-                          <li>Open API Playground to test endpoints.</li>
-
-                          <li>Read the docs for request headers and examples.</li>
-
-                        </ol>
-
-                      </div>
-
-                      <div className="rounded-3xl bg-black p-6 text-white shadow-sm">
-
-                        <div className="text-sm text-gray-300">Current quota</div>
-
-                        <div className="mt-2 text-3xl font-bold">
-
-                          {userUsage?.monthlyUsage || 0} / {userUsage?.monthlyQuota || 0}
-
-                        </div>
-
-                        <div className="mt-4 h-2 rounded-full bg-gray-700 overflow-hidden">
-
-                          <div
-                            className="h-full rounded-full bg-white"
-                            style={{
-                              width: `${Math.min(
-                                Math.round(
-                                  ((userUsage?.monthlyUsage || 0) /
-                                    Math.max(userUsage?.monthlyQuota || 1, 1)) * 100
-                                ),
-                                100
-                              )}%`,
-                            }}
-                          />
-
-                        </div>
 
                       </div>
 
