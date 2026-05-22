@@ -112,17 +112,6 @@ function Sidebar({
 
           <button
             onClick={() =>
-              setTab("logs")
-            }
-            className={itemClass(
-              tab === "logs"
-            )}
-          >
-             Live Logs
-          </button>
-
-          <button
-            onClick={() =>
               setTab("apiKeys")
             }
             className={itemClass(
@@ -153,6 +142,21 @@ function Sidebar({
           >
              API Docs
           </button>
+
+          {role === "ADMIN" && (
+
+            <button
+              onClick={() =>
+                setTab("logs")
+              }
+              className={itemClass(
+                tab === "logs"
+              )}
+            >
+               Live Logs
+            </button>
+
+          )}
 
           {role === "ADMIN" && (
             <button

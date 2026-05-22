@@ -13,7 +13,7 @@ export const getUsage =
 
     const response =
       await api.get(
-        "/v1/admin/usage",
+        "/v1/users/me/usage",
         {
           headers: getAuthHeaders(),
         }

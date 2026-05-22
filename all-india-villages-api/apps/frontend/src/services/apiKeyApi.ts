@@ -17,7 +17,7 @@ export const getApiKeys =
 
     const response =
       await api.get(
-        "/v1/admin/api-keys",
+        "/v1/api-keys",
         {
           headers:
             getAuthHeaders(),
