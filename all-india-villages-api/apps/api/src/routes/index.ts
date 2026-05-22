@@ -11,6 +11,7 @@ import apiKeyRouter from "./apiKey.routes";
 import adminRouter from "./admin.routes";
 import adminUsersRoutes
 from "./adminUsers.routes";
+import setupRouter from "./setup.routes";
 import villagesRouter from "./villages.routes";
 import {
   checkQuota,
@@ -39,6 +40,7 @@ router.use("/users", userRouter);
 router.use("/api-keys", apiKeyRouter);
 
 router.use("/admin", adminRouter);
+router.use("/setup", setupRouter);
 
 
 
