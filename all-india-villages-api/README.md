@@ -5,9 +5,9 @@ Monorepo scaffold for the India villages platform.
 ## Structure
 
 - `apps/api` - Express backend
-- `apps/admin-dashboard` - React admin panel
-- `apps/b2b-portal` - Client dashboard
-- `apps/demo-client` - Public demo app
+- `apps/frontend` - Admin client dashboard
+- `apps/b2b-portal` - B2B client portal for companies using the API
+- `apps/demo-client` - Public/demo client for marketing and sample access
 - `packages/shared-types` - Shared TypeScript types
 - `packages/eslint-config` - Shared lint rules
 - `packages/ui-components` - Shared UI components
