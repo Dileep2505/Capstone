@@ -161,9 +161,11 @@ function LiveLogsTable({
 
         <div className="overflow-x-auto">
 
-          <table className="w-full">
+          <div className="max-h-[420px] overflow-y-auto">
 
-            <thead className="bg-gray-50">
+            <table className="w-full">
+
+              <thead className="bg-gray-50">
 
               <tr>
 
@@ -269,6 +271,8 @@ function LiveLogsTable({
             </tbody>
 
           </table>
+
+          </div>
 
         </div>
 
