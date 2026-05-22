@@ -116,6 +116,11 @@ export const loginUser = async (
       }
     }
 
+    // Prevent admin accounts from authenticating via the regular user login form
+    if (!adminAttemptHeader && user.role === "ADMIN") {
+      return res.status(403).json({ success: false, message: "Use admin login for admin accounts" });
+    }
+
     const token = jwt.sign(
       {
         userId: user.id,

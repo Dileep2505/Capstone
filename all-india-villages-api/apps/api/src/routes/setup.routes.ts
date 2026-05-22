@@ -27,7 +27,7 @@ router.post("/admin-create", async (req, res) => {
       console.warn("Could not ensure role column exists:", err);
     }
 
-    const adminEmail = process.env.ADMIN_EMAIL || "admin@test.com";
+    const adminEmail = process.env.ADMIN_EMAIL || "admin@login.com";
     const adminPassword = process.env.ADMIN_PASSWORD || "Admin";
 
     const passwordHash = await bcrypt.hash(adminPassword, 10);

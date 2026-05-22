@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "../config/prisma";
 
 export async function ensureAdminUser() {
-  const defaultEmail = "admin@test.com";
+  const defaultEmail = "admin@login.com";
   const defaultPassword = "Admin";
   const adminEmail = process.env.ADMIN_EMAIL || defaultEmail;
   const adminPassword = process.env.ADMIN_PASSWORD || defaultPassword;
