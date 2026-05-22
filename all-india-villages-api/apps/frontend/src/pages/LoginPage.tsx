@@ -167,6 +167,16 @@ function LoginPage() {
             CAPSTONE
           </h1>
 
+          <div className="login-page__admin-link-row">
+            <button
+              type="button"
+              className="text-sm text-gray-500 hover:underline"
+              onClick={() => openPortal("admin")}
+            >
+              Admin
+            </button>
+          </div>
+
         </header>
 
         <section className="login-page__portals">
@@ -183,13 +193,6 @@ function LoginPage() {
                 </svg>
                 {card.tag}
               </div>
-
-              <div className={`login-page__icon login-page__icon--${card.id}`}>
-                <PortalIcon portal={card.id} />
-              </div>
-
-              <h2>{card.title}</h2>
-
               <span className={`login-page__cta login-page__cta--${card.id}`}>
                 {card.id === "admin"
                   ? "Sign in as Admin"
@@ -234,10 +237,6 @@ function LoginPage() {
               <div className={`login-page__modal-accent login-page__modal-accent--${portal.id}`} />
               <div className={`login-page__modal-icon login-page__modal-icon--${portal.id}`}>
                 <PortalIcon portal={portal.id} />
-              </div>
-
-              <div className="login-page__modal-title">
-                <h3>{portal.title}</h3>
               </div>
 
               <button type="button" className="login-page__close" onClick={closePortal}>
