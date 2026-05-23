@@ -279,7 +279,7 @@ function LoginPage() {
 
             <div className="login-page__modal-body">
               <form onSubmit={isRegister ? handleRegister : signIn} className="login-page__form">
-                {(portal.id === "b2b" || portal.id === "demo") && (
+                {portal.id === "demo" && (
                   <>
                     <div className="login-page__field">
                       <label>Email</label>
@@ -381,35 +381,7 @@ function LoginPage() {
 
                 {/* Demo-specific note remains above registration; unified login fields cover demo and user */}
 
-                {isRegister && portal.id === "demo" && (
-                  <>
-                    <div className="login-page__field-row">
-                      <div className="login-page__field">
-                        <label>First Name</label>
-                        <input type="text" placeholder="Priya" value={regFirstName} onChange={(e) => setRegFirstName(e.target.value)} />
-                      </div>
-
-                      <div className="login-page__field">
-                        <label>Last Name</label>
-                        <input type="text" placeholder="Sharma" value={regLastName} onChange={(e) => setRegLastName(e.target.value)} />
-                      </div>
-                    </div>
-
-                    <div className="login-page__field">
-                      <label>Email</label>
-                      <input type="email" placeholder="demo@example.com" value={demoEmail} onChange={(event) => setDemoEmail(event.target.value)} />
-                    </div>
-
-                    <div className="login-page__field">
-                      <label>Use Case <span>(optional)</span></label>
-                      <input type="text" placeholder="e.g. Address validation, geo-tagging…" value={demoUseCase} onChange={(event) => setDemoUseCase(event.target.value)} />
-                    </div>
-
-                    <div className="login-page__remember-row">
-                      <button type="button" className="text-sm text-blue-600" onClick={() => setIsRegister(false)}>Back to Sign In</button>
-                    </div>
-                  </>
-                )}
+                
 
                 <button type="submit" className="login-page__submit" disabled={loading}>
                   {loading
