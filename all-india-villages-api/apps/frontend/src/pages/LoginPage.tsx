@@ -278,15 +278,15 @@ function LoginPage() {
 
             <div className="login-page__modal-body">
               <form onSubmit={isRegister ? handleRegister : signIn} className="login-page__form">
-                {portal.id === "admin" && (
+                {(portal.id === "b2b" || portal.id === "demo") && (
                   <>
                     <div className="login-page__field">
-                      <label>Admin Email</label>
+                      <label>Email</label>
                       <input
                         type="email"
-                        placeholder="admin@villageapi.in"
-                        value={email}
-                        onChange={(event) => setEmail(event.target.value)}
+                        placeholder={portal.id === "demo" ? "demo@example.com" : "you@yourcompany.com"}
+                        value={portal.id === "demo" ? demoEmail : email}
+                        onChange={(event) => portal.id === "demo" ? setDemoEmail(event.target.value) : setEmail(event.target.value)}
                       />
                     </div>
 
@@ -294,21 +294,21 @@ function LoginPage() {
                       <label>Password</label>
                       <input
                         type="password"
-                        placeholder="Enter your password"
+                        placeholder={portal.id === "demo" ? "Demo password" : "Enter your password"}
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                       />
                     </div>
 
-                    
                     <div className="login-page__remember-row">
                       <label className="login-page__check-label">
                         <input type="checkbox" />
-                        Stay signed in
+                        Remember me
                       </label>
                       <a href="#">Forgot password?</a>
                     </div>
                   </>
+                )}
                 )}
 
                 {!isRegister && portal.id === "b2b" && (
@@ -343,7 +343,7 @@ function LoginPage() {
                   </>
                 )}
 
-                {isRegister && portal.id === "b2b" && (
+                {isRegister && (portal.id === "b2b" || portal.id === "demo") && (
                   <>
                     <div className="login-page__field">
                       <label>First Name</label>
@@ -365,51 +365,20 @@ function LoginPage() {
                       <input type="password" placeholder="Choose a password" value={password} onChange={(event) => setPassword(event.target.value)} />
                     </div>
 
+                    {portal.id === "demo" && (
+                      <div className="login-page__field">
+                        <label>Use Case <span>(optional)</span></label>
+                        <input type="text" placeholder="e.g. Address validation" value={demoUseCase} onChange={(e) => setDemoUseCase(e.target.value)} />
+                      </div>
+                    )}
+
                     <div className="login-page__remember-row">
                       <button type="button" className="text-sm text-blue-600" onClick={() => setIsRegister(false)}>Back to Sign In</button>
                     </div>
                   </>
                 )}
 
-                {portal.id === "demo" && (
-                  <>
-                    <div className="login-page__demo-note">
-                      Demo key is rate-limited to 50 requests/day. For full access, register a B2B account.
-                    </div>
-
-                    <div className="login-page__field-row">
-                      <div className="login-page__field">
-                        <label>First Name</label>
-                        <input type="text" placeholder="Priya" />
-                      </div>
-
-                      <div className="login-page__field">
-                        <label>Last Name</label>
-                        <input type="text" placeholder="Sharma" />
-                      </div>
-                    </div>
-
-                    <div className="login-page__field">
-                      <label>Email</label>
-                      <input
-                        type="email"
-                        placeholder="demo@example.com"
-                        value={demoEmail}
-                        onChange={(event) => setDemoEmail(event.target.value)}
-                      />
-                    </div>
-
-                    <div className="login-page__field">
-                      <label>Use Case <span>(optional)</span></label>
-                      <input
-                        type="text"
-                        placeholder="e.g. Address validation, geo-tagging…"
-                        value={demoUseCase}
-                        onChange={(event) => setDemoUseCase(event.target.value)}
-                      />
-                    </div>
-                  </>
-                )}
+                {/* Demo-specific note remains above registration; unified login fields cover demo and user */}
 
                 {isRegister && portal.id === "demo" && (
                   <>
@@ -448,9 +417,7 @@ function LoginPage() {
                       ? "Register"
                       : portal.id === "admin"
                         ? "Sign In to Admin"
-                        : portal.id === "b2b"
-                          ? "Sign In to Portal"
-                          : "Launch Demo"}
+                        : "Sign In to Portal"}
                 </button>
               </form>
             </div>
