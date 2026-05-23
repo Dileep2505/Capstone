@@ -546,7 +546,7 @@ function DashboardPage() {
 
                     <div className="p-6">
 
-                      <div className="space-y-4">
+                      <div className="space-y-4 max-h-[360px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
 
                         {userApiKeys.length === 0 ? (
 
