@@ -840,3 +840,64 @@ input {
     justify-content: center;
   }
 }
+
+/* Force pure white background and black text across the login page */
+.login-page {
+  --paper: #ffffff;
+  --paper2: #ffffff;
+  --paper3: #f8f9fb;
+  --ink: #000000;
+  --ink2: #111111;
+  --ink3: #555555;
+  --border: #e6e9ee;
+}
+
+.login-page,
+.login-page * {
+  color: inherit;
+}
+
+.login-page {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.login-page__portals,
+.login-page__portal,
+.login-page__modal,
+.login-page__oauth-btn {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--border);
+}
+
+.login-page__field input {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--border);
+}
+
+.login-page__modal {
+  box-shadow: 0 24px 80px rgba(0,0,0,0.08);
+}
+
+.login-page__tag--admin,
+.login-page__tag--b2b,
+.login-page__tag--demo {
+  background: transparent;
+  color: var(--ink3);
+}
+
+.login-page__icon--admin,
+.login-page__icon--b2b,
+.login-page__icon--demo {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--ink2);
+}
+
+.login-page__submit {
+  background: #000;
+  color: #fff;
+}
+
