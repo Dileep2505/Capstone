@@ -171,7 +171,7 @@ function LoginPage() {
     };
 
   return (
-    <div className="login-page login-page--bw">
+    <div className="login-page">
       <div className="login-page__bg" aria-hidden="true">
         <div className="login-page__grid" />
         <div className="login-page__vignette" />
