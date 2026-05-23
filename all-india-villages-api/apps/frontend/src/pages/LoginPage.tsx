@@ -204,7 +204,6 @@ function LoginPage() {
               className="text-sm text-gray-500 hover:underline"
               onClick={() => openPortal("admin")}
             >
-              Admin
             </button>
           </div>
 
@@ -309,7 +308,7 @@ function LoginPage() {
                       <a href="#">Forgot password?</a>
                     </div>
                   </>
-                )
+                     )
             }
 
                 {!isRegister && portal.id === "b2b" && (
