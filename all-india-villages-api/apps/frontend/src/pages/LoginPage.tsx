@@ -308,8 +308,8 @@ function LoginPage() {
                       <a href="#">Forgot password?</a>
                     </div>
                   </>
-                )}
-                )}
+                )
+            }
 
                 {!isRegister && portal.id === "b2b" && (
                   <>
