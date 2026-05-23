@@ -18,17 +18,17 @@ type PortalCard = {
 const portalCards: PortalCard[] = [
   {
     id: "admin",
-    tag: "Admin User",
+    tag: "Admin Login",
     title: "Admin Login",
   },
   {
     id: "b2b",
-    tag: "B2B Client",
+    tag: "User Login",
     title: "User Login",
   },
   {
     id: "demo",
-    tag: "Demo Client",
+    tag: "Demo Client Login",
     title: "Demo Client Login",
     // demo has no subtitle/description
   },
