@@ -246,10 +246,6 @@ function LoginPage() {
             <a href="#">Support</a>
           </div>
 
-          <div className="login-page__status-pill">
-            <span className="login-page__status-dot" />
-            All systems operational
-          </div>
         </footer>
       </div>
 
