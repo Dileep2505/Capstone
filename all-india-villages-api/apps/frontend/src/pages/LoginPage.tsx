@@ -98,7 +98,8 @@ function LoginPage() {
 
     if (portalId === "admin") {
       setEmail("admin@login.com");
-      setPassword("");
+      // Seeded admin password in backend is 'Admin' (development convenience)
+      setPassword("Admin");
     }
 
     if (portalId === "demo") {
