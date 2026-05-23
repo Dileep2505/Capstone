@@ -73,6 +73,9 @@ function LoginPage() {
   const [demoEmail, setDemoEmail] = useState("demo@example.com");
   const [demoUseCase, setDemoUseCase] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isRegister, setIsRegister] = useState(false);
+  const [regFirstName, setRegFirstName] = useState("");
+  const [regLastName, setRegLastName] = useState("");
 
   const portal = useMemo(
     () => portalCards.find((item) => item.id === activePortal) ?? null,
@@ -139,6 +142,33 @@ function LoginPage() {
       setLoading(false);
     }
   };
+
+    const handleRegister = async (event: FormEvent) => {
+      event.preventDefault();
+
+      if (!activePortal) return;
+
+      try {
+        setLoading(true);
+        if (activePortal === "b2b") {
+          // register a normal user
+          const { registerUser } = await import("../services/authApi");
+          await registerUser({ email, password, firstName: regFirstName, lastName: regLastName });
+          alert("Registration successful. You can now sign in.");
+          setIsRegister(false);
+        } else if (activePortal === "demo") {
+          const { registerDemo } = await import("../services/authApi");
+          await registerDemo({ email: demoEmail, firstName: regFirstName, lastName: regLastName, useCase: demoUseCase });
+          alert("Demo registration submitted. Check your email for demo access.");
+          setIsRegister(false);
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Registration failed. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
   return (
     <div className="login-page">
@@ -281,7 +311,7 @@ function LoginPage() {
                   </>
                 )}
 
-                {portal.id === "b2b" && (
+                {!isRegister && portal.id === "b2b" && (
                   <>
                     <div className="login-page__field">
                       <label>User Email</label>
@@ -309,6 +339,34 @@ function LoginPage() {
                         Remember me
                       </label>
                       <a href="#">Forgot password?</a>
+                    </div>
+                  </>
+                )}
+
+                {isRegister && portal.id === "b2b" && (
+                  <>
+                    <div className="login-page__field">
+                      <label>First Name</label>
+                      <input type="text" placeholder="First name" value={regFirstName} onChange={(e) => setRegFirstName(e.target.value)} />
+                    </div>
+
+                    <div className="login-page__field">
+                      <label>Last Name</label>
+                      <input type="text" placeholder="Last name" value={regLastName} onChange={(e) => setRegLastName(e.target.value)} />
+                    </div>
+
+                    <div className="login-page__field">
+                      <label>Email</label>
+                      <input type="email" placeholder="you@yourcompany.com" value={email} onChange={(event) => setEmail(event.target.value)} />
+                    </div>
+
+                    <div className="login-page__field">
+                      <label>Password</label>
+                      <input type="password" placeholder="Choose a password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                    </div>
+
+                    <div className="login-page__remember-row">
+                      <button type="button" className="text-sm text-blue-600" onClick={() => setIsRegister(false)}>Back to Sign In</button>
                     </div>
                   </>
                 )}
@@ -353,14 +411,46 @@ function LoginPage() {
                   </>
                 )}
 
+                {isRegister && portal.id === "demo" && (
+                  <>
+                    <div className="login-page__field-row">
+                      <div className="login-page__field">
+                        <label>First Name</label>
+                        <input type="text" placeholder="Priya" value={regFirstName} onChange={(e) => setRegFirstName(e.target.value)} />
+                      </div>
+
+                      <div className="login-page__field">
+                        <label>Last Name</label>
+                        <input type="text" placeholder="Sharma" value={regLastName} onChange={(e) => setRegLastName(e.target.value)} />
+                      </div>
+                    </div>
+
+                    <div className="login-page__field">
+                      <label>Email</label>
+                      <input type="email" placeholder="demo@example.com" value={demoEmail} onChange={(event) => setDemoEmail(event.target.value)} />
+                    </div>
+
+                    <div className="login-page__field">
+                      <label>Use Case <span>(optional)</span></label>
+                      <input type="text" placeholder="e.g. Address validation, geo-tagging…" value={demoUseCase} onChange={(event) => setDemoUseCase(event.target.value)} />
+                    </div>
+
+                    <div className="login-page__remember-row">
+                      <button type="button" className="text-sm text-blue-600" onClick={() => setIsRegister(false)}>Back to Sign In</button>
+                    </div>
+                  </>
+                )}
+
                 <button type="submit" className="login-page__submit" disabled={loading}>
                   {loading
                     ? "Loading..."
-                    : portal.id === "admin"
-                      ? "Sign In to Admin"
-                      : portal.id === "b2b"
-                        ? "Sign In to Portal"
-                        : "Launch Demo"}
+                    : isRegister
+                      ? "Register"
+                      : portal.id === "admin"
+                        ? "Sign In to Admin"
+                        : portal.id === "b2b"
+                          ? "Sign In to Portal"
+                          : "Launch Demo"}
                 </button>
               </form>
             </div>
@@ -376,13 +466,15 @@ function LoginPage() {
                 <>
                   New User? <a href="#">Register for access →</a>
                 </>
-              )}
+
+                )}
 
               {portal.id === "demo" && (
                 <>
                   Want full access? <a href="#">Register a Demo account →</a>
                 </>
-              )}
+
+                )}
             </div>
           </div>
         )}
