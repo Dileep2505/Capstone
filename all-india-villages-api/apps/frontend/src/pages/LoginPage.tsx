@@ -277,7 +277,7 @@ function LoginPage() {
             </div>
 
             <div className="login-page__modal-body">
-              <form onSubmit={signIn} className="login-page__form">
+              <form onSubmit={isRegister ? handleRegister : signIn} className="login-page__form">
                 {portal.id === "admin" && (
                   <>
                     <div className="login-page__field">
@@ -464,14 +464,14 @@ function LoginPage() {
 
               {portal.id === "b2b" && (
                 <>
-                  New User? <a href="#">Register for access →</a>
+                  New User? <button type="button" className="text-blue-600" onClick={() => setIsRegister(true)}>Register for access →</button>
                 </>
 
                 )}
 
               {portal.id === "demo" && (
                 <>
-                  Want full access? <a href="#">Register a Demo account →</a>
+                  Want full access? <button type="button" className="text-blue-600" onClick={() => setIsRegister(true)}>Register a Demo account →</button>
                 </>
 
                 )}
